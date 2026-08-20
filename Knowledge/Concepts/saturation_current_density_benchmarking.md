@@ -1,65 +1,58 @@
 ---
 type: concept
-project: zotero_obsidian_kb
-title: "Saturation Current Density Benchmarking in Logic Transistors"
-slug: saturation_current_density_benchmarking
-canvas_visibility: visible
+project: 2d-semiconductors
+title: Saturation Current Density Benchmarking
 status: active
 claim_strength: strong
-domain: semiconductor-devices
 primary_sources:
   - "[[Sources/Papers/2021_Liu_2D-Transistors]]"
-canonical_equation: 'I_{on} = q n_{2D} v_{inj}'
-updated: 2026-08-19T08:50:00Z
+  - "[[Sources/Papers/2022_Cheng_FET-Benchmark]]"
+tags:
+  - type/concept
+  - topic/semiconductor
+  - topic/benchmarking
+  - status/promoted
+aliases:
+  - Saturation Current Density
+  - Ion/W
+  - 饱和电流密度标杆评估
+created: 2026-03-29
+updated: 2026-04-18
 ---
 
-# Saturation Current Density Benchmarking in Logic Transistors
-> **中文概念**：逻辑晶体管开态饱和电流密度基准评估
-
----
+# 🧬 Saturation Current Density Benchmarking / 饱和电流密度标杆评估准则
 
 ## Definition
-- **[EN]**: In ultra-short-channel nanoscale transistors, carrier transport transitions from diffusive drift to quasi-ballistic injection. Consequently, low-field drift mobility ceases to dictate switching speed; the **saturation on-current density per unit width ($I_{on}/W$)** at a fixed supply voltage ($V_{dd}$) and specified off-current ($I_{off}$) represents the sole decisive figure of merit for logic circuit delay.
-- **[CN] 概念定义**：在超短沟道纳米晶体管中，载流子输运从传统扩散漂移机制转变为准弹道注入机制。因此，低场漂移迁移率不再决定逻辑门电路的翻转延迟；在固定供电电压 ($V_{dd}$) 和规定关态漏电流 ($I_{off}$) 条件下的**单位宽度开态饱和电流密度 ($I_{on}/W$)**，才是评价逻辑晶体管性能的最核心客观基准。
+- **[EN]**: Saturation current density ($I_{sat}/W$ or $I_{on}/W$) is the maximum on-state current flowing through a transistor channel normalized by channel width ($W$) under high drain bias ($V_{ds} = V_{dd}$) and full gate overdrive ($V_{gs} - V_{th} = V_{dd}$).
+- **[CN]**: 饱和电流密度 ($I_{sat}/W$ 或 $I_{on}/W$) 是晶体管在高漏极偏压 ($V_{ds} = V_{dd}$) 与充分栅极过驱动 ($V_{gs} - V_{th} = V_{dd}$) 状态下，按沟道宽度归一化的最大开态驱动电流。
+
+```
+                       $I_{on}/W$ 决定逻辑门延迟 $\tau = \frac{C_L V_{dd}}{I_{on}}$
+```
 
 ---
 
-## Mathematical Formulation
-- **[EN] Ballistic Injection Current Equation**:
-  $$I_{on} = q \cdot n_{2D} \cdot v_{inj} \cdot \mathcal{T}$$
-  Where:
-  - $q$ is the elementary electron charge / 基本电荷量 $(1.6 \times 10^{-19}\text{ C})$
-  - $n_{2D}$ is the 2D sheet carrier density at the top of the barrier / 势垒顶端载流子面密度 $(\text{cm}^{-2})$
-  - $v_{inj}$ is the thermal/ballistic carrier injection velocity / 载流子注入初速度 $(\approx 10^7\text{ cm/s})$
-  - $\mathcal{T}$ is the ballistic transmission coefficient / 弹道透射系数 $(0 < \mathcal{T} \le 1)$
-- **[CN] 物理推导**：
-  - 提高 $I_{on}/W$ 的核心路径是提升顶端载流子面密度 $n_{2D}$（依赖减小 EOT 与降低接触电阻 $R_c$）以及选择高注入速度 $v_{inj}$（与能带有效质量 $m^*$ 相关）的材料。
+## Mechanism & Ballistic Transport Model
+
+In short-channel ballistic nanotransistors, saturation current is governed by the carrier injection velocity ($v_{inj}$) rather than diffusive low-field mobility:
+
+$$I_{sat}/W = q \cdot n_{2D} \cdot v_{inj}$$
+
+- $q$: Elementary charge (元电荷)
+- $n_{2D}$: 2D carrier density in channel (沟道二维载流子面密度)
+- $v_{inj}$: Thermal injection / saturation velocity (载流子热注入速度 / 饱和速度)
 
 ---
 
-## Theoretical Grounding
-- **[EN]**: Historical literature often prioritized peak field-effect mobility $\mu_{FE}$ measured in long-channel devices. However, long-channel mobility fails to predict nanoscale digital performance where high lateral electric fields cause severe velocity saturation and quasi-ballistic injection.
-- **[CN] 理论基础**：学术界早期常将长沟道器件测得的峰值场效应迁移率 $\mu_{FE}$ 作为宣传亮点。然而在先进制程纳米尺度下，强纵向电场导致载流子速度迅速饱和，器件完全受限于弹道注入速度与接触压降，长沟道迁移率与最终芯片时钟频率严重脱节。
+## Supporting Evidence
+- `EVD-2022_Cheng_FET-Benchmark-01`: Standardizes width normalization and voltage matching for emerging logic transistors.
+- `EVD-2021_Liu_2D-Transistors-02`: Demonstrates that ballistic injection velocity dictates on-current performance at sub-10-nm physical gate lengths.
 
 ---
 
-## Evidence & Empirical Support
-- **[EN]**: [[Sources/Papers/2021_Liu_2D-Transistors#Evidence|Liu et al. (Nature 2021)]] benchmarks demonstrated that 2D $\text{MoS}_2$ FETs with low contact resistance achieve $I_{on} > 1\text{ mA}/\mu\text{m}$ at $V_{ds} = 1\text{ V}$, meeting the IRDS targets for future silicon-equivalent logic nodes.
-- **[CN] 实证支持**：[[Sources/Papers/2021_Liu_2D-Transistors#Evidence|Liu et al. (Nature 2021)]] 总结指出，优化接触电阻后的单层 $\text{MoS}_2$ 晶体管在 $V_{ds} = 1\text{ V}$ 下实测开态电流已突破 $1\text{ mA}/\mu\text{m}$，完全满足国际器件与系统路线图 (IRDS) 对未来先进逻辑节点的指标要求。
-
----
-
-## Limitations & Boundary Conditions
-- **[EN]**: Achieving near-ballistic $I_{on}$ in practice is heavily throttled by metal-semiconductor contact resistance ($R_c$) and self-heating degradation under high current densities.
-- **[CN] 适用边界与局限性**：高开态电流密度的实际发挥严重受制于金属接触电阻 ($R_c$) 以及大电流密度下的自发热效应 (Self-Heating Effect)。
-
----
-
-## Cross-References
-- [[Sources/Papers/2021_Liu_2D-Transistors]]
-- [[Sources/Papers/2022_Cheng_FET-Benchmark]]
+## Related Knowledge & Papers
+- [[Sources/Papers/2021_Liu_2D-Transistors|Liu et al. (Nature 2021)]]
+- [[Sources/Papers/2022_Cheng_FET-Benchmark|Cheng et al. (Nature Electronics 2022)]]
 - [[Knowledge/Concepts/two_dimensional_transistor_scaling]]
-- [[Knowledge/Concepts/contact_resistance_extraction]]
 - [[Knowledge/Concepts/emerging_fet_benchmarking]]
-- [[Knowledge/Literature Overview]]
-- [[Knowledge/Method Taxonomy]]
+- [[Writing/comparison-matrix]]

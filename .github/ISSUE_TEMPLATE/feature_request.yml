@@ -1,0 +1,23 @@
+name: ✨ Feature Request / 功能建议
+description: Suggest an idea or new capability for ScholarFlow / 为 ScholarFlow 提出新功能建议
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        We appreciate your ideas and feedback! / 感谢您对项目的建议与支持！
+  - type: textarea
+    id: problem
+    attributes:
+      label: 💡 Motivation & Problem / 需求背景与痛点
+      description: Is your feature request related to a problem? / 您的需求是否源于某个特定痛点？
+      placeholder: A clear description of what the pain point is / 请描述当前遇到的痛点...
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: 🚀 Proposed Solution / 建议解决方案
+      description: Describe the solution you'd like / 描述您期望的功能设计或实现方案
+    validations:
+      required: true

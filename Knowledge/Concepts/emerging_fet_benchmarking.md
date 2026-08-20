@@ -1,63 +1,54 @@
 ---
 type: concept
-project: zotero_obsidian_kb
-title: "Emerging FET Benchmarking Guidelines"
-slug: emerging_fet_benchmarking
-canvas_visibility: visible
+project: 2d-semiconductors
+title: Emerging Field-Effect Transistor Benchmarking
 status: active
 claim_strength: strong
-domain: semiconductor-devices
 primary_sources:
   - "[[Sources/Papers/2022_Cheng_FET-Benchmark]]"
-canonical_equation: 'SS = \frac{\partial V_{gs}}{\partial (\log_{10} I_d)}'
-updated: 2026-08-19T08:08:00Z
+  - "[[Sources/Papers/2021_Liu_2D-Transistors]]"
+tags:
+  - type/concept
+  - topic/semiconductor
+  - topic/benchmarking
+  - status/promoted
+aliases:
+  - FET Benchmarking
+  - Emerging FET Benchmarking
+  - 新兴晶体管标杆测试
+created: 2026-03-29
+updated: 2026-04-18
 ---
 
-# Emerging FET Benchmarking Guidelines
-> **中文概念**：新兴低维场效应晶体管基准测试指南
-
----
+# 🧬 Emerging Field-Effect Transistor Benchmarking / 新兴场效应晶体管标杆测试规范
 
 ## Definition
-- **[EN]**: A standardized benchmarking framework for emerging low-dimensional field-effect transistors (FETs, such as monolayer $\text{MoS}_2$, carbon nanotubes, and 2D semiconductors). It establishes uniform extraction rules and comparison metrics to prevent selective reporting and ensure meaningful performance benchmarking against Silicon CMOS standards.
-- **[CN] 概念定义**：面向新兴低维场效应晶体管（如单层 $\text{MoS}_2$、碳纳米管、二维半导体）的标准化基准测试与参数提取规范。旨在建立统一的器件参数提取与对比规则，消除学术界选择性报道的问题，实现与硅基先进 CMOS 节点的严谨客观对标。
+- **[EN]**: A standardized benchmarking methodology to rigorously evaluate and compare non-silicon logic transistors (2D semiconductors, carbon nanotubes, semiconductor nanowires) against IRDS/ITRS industry standards.
+- **[CN]**: 一套用于严格评估和横向对比非硅逻辑晶体管（二维半导体、碳纳米管、半导体纳米线）与国际半导体路线图 (IRDS) 产业标准的规范化标杆测试方法学。
 
 ---
 
-## Mathematical Formulation
-- **[EN] Core Metric Formulations**:
-  1. **Subthreshold Swing ($SS$) / 亚阈值摆幅**:
-  $$SS = \left( \frac{\partial \log_{10} I_d}{\partial V_{gs}} \right)^{-1} = \frac{k_B T}{q} \ln(10) \left( 1 + \frac{C_{it} + C_d}{C_{ox}} \right)$$
-  2. **On/Off Current Ratio / 开关电流比**:
-  $$\text{Ratio} = \frac{I_{on} (V_{gs} = V_{dd}, V_{ds} = V_{dd})}{I_{off} (V_{gs} = V_{off}, V_{ds} = V_{dd})}$$
-  3. **Effective Drive Current Normalization / 归一化开态电流**:
-  $$I_{on} / W \quad (\mu\text{A}/\mu\text{m})$$
-- **[CN] 关键公式解析**：
-  - 亚阈值摆幅 $SS$ 反映栅控能力，室温玻尔兹曼极限为 $60\text{ mV/dec}$；
-  - 必须在统一的供电电压 $V_{dd}$ 条件下比对开态电流密度与开关比。
+## Mathematical Formulation & Criteria
+
+| 指标名称 / Metric | 标准测试条件 / Protocol | 物理意义 / Physical Meaning |
+| :--- | :--- | :--- |
+| **$I_{on}/W$** | $V_{ds} = V_{dd},\ V_{gs}-V_{th}=V_{dd}$ | 饱和开态驱动电流密度（衡量逻辑门充放电速度） |
+| **$I_{on}/I_{off}$** | Over operating voltage window | 开关比（保证逻辑状态鲁棒性与静态漏电抑制，需 $\ge 10^4$） |
+| **$SS$ (Subthreshold Swing)** | Minimum & Average over 3 decades | 亚阈值摆幅（衡量栅电极对沟道势垒的静电调控效率） |
+| **$R_c$ (Contact Resistance)** | TLM extraction at high carrier density | 接触电阻（衡量界面载流子注入效率） |
+| **$EOT$ (Equivalent Oxide Thickness)**| From measured gate capacitance | 栅介质等效氧化层厚度 |
 
 ---
 
-## Theoretical Grounding
-- **[EN]**: Device performance in low-dimensional FETs is strongly dominated by extrinsic parasitics (such as contact resistance $R_c$, gate dielectric trap density $D_{it}$, and series resistance). Without standardizing reporting conditions, extrinsic device measurements can distort intrinsic transport physics.
-- **[CN] 理论基础**：在原子级超薄的低维材料体系中，器件实测性能极大程度受到金属-半导体接触电阻 ($R_c$)、栅介质界面陷阱 ($D_{it}$) 等寄生效应的主导。如果不进行规范化解耦，外在寄生损耗将严重掩盖材料本征的物理输运极限。
+## Supporting Evidence
+- `EVD-2022_Cheng_FET-Benchmark-01`: Normalization of drive current to channel width at matched supply voltage ($V_{dd}$) is required for honest cross-technology comparison.
+- `EVD-2021_Liu_2D-Transistors-02`: Compares 2D channel saturation current targets ($I_{on}/W > 1.0\text{ mA}/\mu\text{m}$) with sub-2nm silicon GAAFET roadmap nodes.
 
 ---
 
-## Evidence & Empirical Support
-- **[EN]**: Demonstrated across monolayer $\text{MoS}_2$ FET benchmarks in [[Sources/Papers/2022_Cheng_FET-Benchmark#Evidence|Cheng et al. (Nature Electronics 2022)]]. Canonical $I_{on}$-$I_{off}$ envelopes demonstrate that contact-de-embedded metrics align closely with theoretical ballistic limits.
-- **[CN] 实证支持**：经 [[Sources/Papers/2022_Cheng_FET-Benchmark#Evidence|Cheng et al. (Nature Electronics 2022)]] 对全球数百组单层 $\text{MoS}_2$ 器件实测数据调研验证。在统一标准下扣除接触电阻后，本征饱和电流与理论弹道输运预测高度一致。
-
----
-
-## Limitations & Boundary Conditions
-- **[EN]**: Primary guidelines target DC characteristics; high-speed AC switching dynamics require separate parasitic capacitance calibration.
-- **[CN] 边界条件与局限性**：当前规范主要针对静态直流特性；涉及射频截止频率与瞬态逻辑反演特性的评估需结合高频寄生电容单独标定。
-
----
-
-## Cross-References
-- [[Sources/Papers/2022_Cheng_FET-Benchmark]]
+## Related Knowledge & Papers
+- [[Sources/Papers/2022_Cheng_FET-Benchmark|Cheng et al. (Nature Electronics 2022)]]
+- [[Sources/Papers/2021_Liu_2D-Transistors|Liu et al. (Nature 2021)]]
+- [[Knowledge/Concepts/saturation_current_density_benchmarking]]
 - [[Knowledge/Concepts/contact_resistance_extraction]]
 - [[Knowledge/Literature Overview]]
-- [[Knowledge/Method Taxonomy]]

@@ -1,44 +1,38 @@
 # 🌊 ScholarFlow (思流)
 
-> **Autonomous, Self-Iterating Academic Knowledge Base & Literature Intelligence Engine**  
-> *Inspired by Andrej Karpathy's "LLM Wiki" paradigm | Integrated with Zotero 7, Obsidian & LLM / Codex Agents*
+<p align="center">
+  <strong>Autonomous, Self-Iterating Academic Knowledge Base & Literature Intelligence Engine</strong><br>
+  <em>Inspired by Andrej Karpathy's "LLM Wiki" paradigm | Integrated with Zotero 7, Obsidian & AI / Codex Agents</em>
+</p>
 
-[![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Tests](https://img.shields.io/badge/Tests-192%2F192%20Passing-brightgreen.svg)](tests/)
-[![CI](https://github.com/scholarflow/scholarflow/actions/workflows/ci.yml/badge.svg)](https://github.com/)
-[![Obsidian](https://img.shields.io/badge/Obsidian-JSON%20Canvas%20v1.0-purple.svg)](https://jsoncanvas.org/)
-[![Zotero](https://img.shields.io/badge/Zotero-Better%20BibTeX%20%2B%20CSL-red.svg)](https://retorque.re/zotero-better-bibtex/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+<p align="center">
+  <a href="README_CN.md"><strong>🇨🇳 简体中文</strong></a> •
+  <a href="README.md"><strong>🇺🇸 English</strong></a> •
+  <a href="SCHOLARFLOW_WORKFLOW_GUIDE.md"><strong>📖 Full Guide</strong></a> •
+  <a href="https://github.com/haha76haa-debug/ScholarFlow/issues"><strong>🐛 Report Bug</strong></a> •
+  <a href="https://github.com/haha76haa-debug/ScholarFlow/discussions"><strong>💬 Discussions</strong></a>
+</p>
 
-[English Documentation](#-english-overview) | [中文说明文档](#-中文使用说明) | [实操全景指南](SCHOLARFLOW_WORKFLOW_GUIDE.md)
-
----
-
-## 📖 English Overview
-
-**ScholarFlow** is a production-grade, self-iterating academic research knowledge base system. It turns raw scientific literature and PDF annotations from **Zotero** into a living, interconnected, and self-growing knowledge network inside **Obsidian**, governed by strict evidentiary rules, autonomous AI agent protocols (**`CLAUDE.md`**, **`AGENT.md`**), and a comprehensive Python automation toolsuite (**`kb-tools`**).
-
-### ✨ Key Features
-
-1. **🧠 Karpathy "LLM Wiki" Architecture for Academia**:
-   - Automated lifecycle: `Ingest (文献摄取) ──► Decompose (概念拆解) ──► Synthesize (全景综合) ──► Compare (矩阵对比)`.
-2. **🛡️ Claim Promotion Gate & Evidence Integrity**:
-   - Enforces strict verification: claims can only graduate to established knowledge when backed by formal Evidence Records (`EVD-citekey-NN`) from peer-reviewed publications.
-3. **⚡ Built-in Python CLI Toolsuite (`kb-tools`)**:
-   - `kb-tools lint`: Strict YAML frontmatter and schema validator.
-   - `kb-tools sync-registry`: Single Master Index (`02-Index.md`) and metadata registry auto-sync.
-   - `kb-tools repair-links`: Bi-directional link healer and orphan detector.
-   - `kb-tools synthesize`: Dynamic generation of Literature Overviews, Method Taxonomies, and Research Gaps.
-   - `kb-tools generate-canvas`: Non-crossing 3-lane Obsidian JSON Canvas v1.0 visual topology generator.
-4. **🌐 100% Bilingual Invariant & Native LaTeX Support**:
-   - Paired `[EN]` / `[CN]` parallel reading with zero-loss LaTeX math rendering ($\lambda = \sqrt{rac{arepsilon_b}{arepsilon_{ox}} t_b t_{ox}}$, $I_{on}/W$, $R_c$).
-5. **🧪 100% Test Coverage**:
-   - **192 unit and adversarial test cases** covering schema edge cases, concurrent operations, and graph integrity.
+<p align="center">
+  <a href="https://github.com/haha76haa-debug/ScholarFlow/actions/workflows/ci.yml"><img src="https://github.com/haha76haa-debug/ScholarFlow/actions/workflows/ci.yml/badge.svg" alt="CI Status"></a>
+  <img src="https://img.shields.io/badge/Python-3.10%2B-blue.svg" alt="Python">
+  <img src="https://img.shields.io/badge/Tests-192%2F192%20Passing-brightgreen.svg" alt="Tests">
+  <img src="https://img.shields.io/badge/Obsidian-JSON%20Canvas%20v1.0-purple.svg" alt="Obsidian">
+  <img src="https://img.shields.io/badge/Zotero-Better%20BibTeX%20%2B%20CSL-red.svg" alt="Zotero">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License"></a>
+  <a href="CONTRIBUTING.md"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
+</p>
 
 ---
 
-## 🏛️ System Architecture
+## 🎯 What is ScholarFlow?
+
+In traditional literature management, researchers often save hundreds of papers in Zotero or Obsidian where notes quickly become isolated silos. When drafting reviews, thesis proposals, or related work sections, connecting claims across papers requires tedious manual cross-checking.
+
+**ScholarFlow** transforms your literature library into a **living, self-iterating knowledge network**:
+- **Obsidian is your "Codebase"**: Notes are structured, modular atomic files.
+- **LLM / AI Agent is your "Programmer"**: Reads your PDF annotations, extracts physics mechanisms, organizes method taxonomies, heals broken wikilinks, and auto-generates comprehensive comparison matrices.
+- **Zotero 7 is your "Immutable Truth"**: Metadata and 6-color semantic highlights sync seamlessly into validated Evidence Records.
 
 ```
                                ┌────────────────────────────────────────┐
@@ -71,23 +65,36 @@
 
 ---
 
+## ✨ Key Capabilities
+
+| Capability | Description |
+| :--- | :--- |
+| **🧠 Karpathy LLM Wiki Architecture** | Closed-loop cycle: `Ingest ──► Decompose ──► Synthesize ──► Compare`. |
+| **🛡️ Strict Claim Promotion Gate** | Claims can only graduate to established knowledge when backed by formal Evidence Records (`EVD-citekey-NN`). |
+| **📊 Single Unified Master Index (`02-Index.md`)** | Real-time KPI dashboard, literature overview cards, concept tables, and synthesis navigation in one central hub. |
+| **🗺️ Non-Overlapping 3-Lane Canvas** | Clean 8-arrow parallel pipeline (`Papers ──► Concepts ──► Syntheses`) in Obsidian JSON Canvas v1.0. |
+| **🌐 100% Bilingual & LaTeX Support** | Paired `[EN]` / `[CN]` parallel reading with native $\LaTeX$ mathematical rendering ($\lambda \propto \sqrt{t_b t_{ox}}$, $I_{on}/W$, $R_c$). |
+| **🧪 100% Test Coverage** | **192 unit and adversarial test cases** covering schema boundary checks, concurrency, and link repairs. |
+
+---
+
 ## 🚀 Quick Start (3 Minutes)
 
-### 1. Clone & Install Dependencies
+### 1. Clone & Set Up Python Environment
 
 ```bash
 # Clone the repository
-git clone https://github.com/<your-username>/ScholarFlow.git
+git clone https://github.com/haha76haa-debug/ScholarFlow.git
 cd ScholarFlow
 
-# Create and activate virtual environment
+# Create virtual environment
 python -m venv .venv
-# Windows:
-.venv\Scriptsctivate
-# Linux/macOS:
+# On Windows:
+.venv\Scripts\activate
+# On Linux/macOS:
 source .venv/bin/activate
 
-# Install kb-tools in editable mode
+# Install dependencies in editable mode
 pip install -e .
 pip install pytest pyyaml
 ```
@@ -101,44 +108,27 @@ python Scripts/run_pipeline.py
 
 ### 3. Open Vault in Obsidian
 
-1. Open **Obsidian** -> Click **"Open folder as vault"**.
-2. Select the `ScholarFlow` repository folder.
+1. Open **Obsidian** $	o$ Click **"Open folder as vault"**.
+2. Select the `ScholarFlow` folder.
 3. Press `Ctrl + G` to inspect the clean color-grouped **Graph View**.
-4. Open `Maps/literature.canvas` to explore the 3-lane visual research topology.
+4. Open `Maps/literature.canvas` to explore the 3-lane visual topology.
 
 ---
 
-## 🛠️ CLI Toolsuite (`kb-tools`) Reference
+## 🛠️ CLI Toolsuite (`kb-tools`)
 
-| Command | Description |
-| :--- | :--- |
-| `kb-tools lint` | Validate vault frontmatter against strict YAML schemas |
-| `kb-tools sync-registry` | Synchronize single Master Index (`02-Index.md`) and `_system/registry.md` |
-| `kb-tools repair-links` | Scan and automatically heal broken wikilinks |
-| `kb-tools synthesize` | Generate bilingual Overview, Taxonomy, and Gaps notes |
-| `kb-tools generate-canvas` | Build non-overlapping `Maps/literature.canvas` topology |
-| `kb-tools run-pipeline` | Run complete end-to-end self-iteration pipeline |
-
----
-
-## 🇨🇳 中文使用说明
-
-**ScholarFlow（思流）** 是一套基于 **Zotero 7 + Obsidian + AI Agent（Codex / Claude）** 的全自迭代学术知识库系统。借鉴了 Andrej Karpathy 的 “LLM Wiki” 范式，致力于解决科研人员文献读完就忘、笔记彼此孤立、缺乏体系化沉淀的痛点。
-
-### 🌟 核心特色
-
-- 📚 **Zotero 原生打通**：通过 Better BibTeX 自动生成规范 Citekey，6 色语义高亮批注一键提取为标准 Evidence Record。
-- 🧬 **原子概念提炼**：自动将文献方法与物理机制沉淀为 `Knowledge/Concepts/` 独立概念卡片。
-- 📊 **全局唯一总索引 (`02-Index.md`)**：聚合 KPI 统计看板、文献全景卡片、概念总表与综合成果导航，告别混乱。
-- 🗺️ **3 泳道 Canvas 画布**：8 条单向水平箭头呈现 `文献 ──► 理论 ──► 产出` 极简流水线，告别杂乱连线。
-- 🧪 **192 项全量自动化测试**：工业级代码与数据自洽性保障。
-
-### 📖 详细实操全景指南
-请参阅完整图文指南：[**`SCHOLARFLOW_WORKFLOW_GUIDE.md`**](SCHOLARFLOW_WORKFLOW_GUIDE.md)
+| Command | Usage | Description |
+| :--- | :--- | :--- |
+| **`lint`** | `kb-tools lint` | Validate YAML frontmatter against strict schema rules |
+| **`sync-registry`** | `kb-tools sync-registry` | Synchronize single Master Index (`02-Index.md`) and `_system/registry.md` |
+| **`repair-links`** | `kb-tools repair-links` | Scan and automatically heal broken wikilinks |
+| **`synthesize`** | `kb-tools synthesize` | Generate Overview, Method Taxonomy, and Research Gaps |
+| **`generate-canvas`** | `kb-tools generate-canvas` | Build non-overlapping `Maps/literature.canvas` topology |
+| **`run-pipeline`** | `kb-tools run-pipeline` | Run complete end-to-end self-iteration pipeline |
 
 ---
 
-## 📂 Vault Directory Structure
+## 📂 Vault Directory Layout
 
 ```text
 ScholarFlow/
@@ -150,9 +140,9 @@ ScholarFlow/
 │       ├── 2021_Liu_2D-Transistors.md
 │       └── 2022_Cheng_FET-Benchmark.md
 ├── Knowledge/
-│   ├── Literature Overview.md    # Synthesis: Literature overview
-│   ├── Method Taxonomy.md        # Synthesis: Method taxonomy tree
-│   ├── Research Gaps.md          # Synthesis: Open challenges
+│   ├── Literature Overview.md    # Synthesis: Field literature overview
+│   ├── Method Taxonomy.md        # Synthesis: Method classification tree
+│   ├── Research Gaps.md          # Synthesis: Open challenges & bottlenecks
 │   └── Concepts/                 # 🧬 Atomic concept & physics cards
 │       ├── contact_resistance_extraction.md
 │       ├── emerging_fet_benchmarking.md
@@ -173,20 +163,22 @@ ScholarFlow/
 
 ## 🧪 Testing & Verification
 
-Run the comprehensive 192-test suite:
+Run the comprehensive test suite:
 
 ```bash
 python -m pytest -v
 ```
 
-All 192 tests pass in < 10 seconds.
+```text
+============================= 192 passed in 8.10s =============================
+```
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) before submitting pull requests.
+Contributions are warmly welcome! Please check out [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the [MIT License](LICENSE).

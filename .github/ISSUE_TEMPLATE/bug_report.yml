@@ -1,0 +1,45 @@
+name: 🐛 Bug Report / 缺陷报告
+description: Create a report to help us fix a bug in ScholarFlow / 提交缺陷报告以帮助我们修复问题
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report this issue! / 感谢您抽出宝贵时间反馈问题！
+  - type: textarea
+    id: description
+    attributes:
+      label: 📝 Description / 问题描述
+      description: A clear and concise description of what the bug is / 请清晰简要地描述遇到的问题
+      placeholder: Describe the bug here / 请在此处描述缺陷...
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: 🔁 Steps to Reproduce / 复现步骤
+      description: Steps to reproduce the behavior / 复现该缺陷的具体步骤
+      placeholder: |
+        1. Run 'kb-tools ...'
+        2. Open 'Maps/literature.canvas'
+        3. See error
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 🎯 Expected Behavior / 预期行为
+      description: What you expected to happen / 您期望发生的结果
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: 💻 Operating System / 操作系统
+      options:
+        - Windows 10/11
+        - macOS (Apple Silicon / Intel)
+        - Linux (Ubuntu / Debian / Fedora)
+        - Other
+    validations:
+      required: true
