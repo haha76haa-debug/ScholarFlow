@@ -1,0 +1,224 @@
+{
+  "nodes": [
+    {
+      "id": "node-2021_liu_2d-transistors",
+      "type": "file",
+      "file": "Sources/Papers/2021_Liu_2D-Transistors.md",
+      "x": 0,
+      "y": 125,
+      "width": 460,
+      "height": 340,
+      "color": "2"
+    },
+    {
+      "id": "node-2022_cheng_fet-benchmark",
+      "type": "file",
+      "file": "Sources/Papers/2022_Cheng_FET-Benchmark.md",
+      "x": 0,
+      "y": 965,
+      "width": 460,
+      "height": 340,
+      "color": "2"
+    },
+    {
+      "id": "group-foundational-architectures",
+      "type": "group",
+      "label": "Foundational Literature",
+      "x": -40,
+      "y": -40,
+      "width": 540,
+      "height": 1680,
+      "color": "2"
+    },
+    {
+      "id": "node-contact_resistance_extraction",
+      "type": "file",
+      "file": "Knowledge/Concepts/contact_resistance_extraction.md",
+      "x": 680,
+      "y": 0,
+      "width": 460,
+      "height": 340,
+      "color": "6"
+    },
+    {
+      "id": "node-emerging_fet_benchmarking",
+      "type": "file",
+      "file": "Knowledge/Concepts/emerging_fet_benchmarking.md",
+      "x": 680,
+      "y": 420,
+      "width": 460,
+      "height": 340,
+      "color": "6"
+    },
+    {
+      "id": "node-saturation_current_density_benchmarking",
+      "type": "file",
+      "file": "Knowledge/Concepts/saturation_current_density_benchmarking.md",
+      "x": 680,
+      "y": 840,
+      "width": 460,
+      "height": 340,
+      "color": "6"
+    },
+    {
+      "id": "node-two_dimensional_transistor_scaling",
+      "type": "file",
+      "file": "Knowledge/Concepts/two_dimensional_transistor_scaling.md",
+      "x": 680,
+      "y": 1260,
+      "width": 460,
+      "height": 340,
+      "color": "6"
+    },
+    {
+      "id": "group-concepts-and-synthesis",
+      "type": "group",
+      "label": "Theoretical Concepts & Physics",
+      "x": 640,
+      "y": -40,
+      "width": 540,
+      "height": 1680,
+      "color": "6"
+    },
+    {
+      "id": "node-literature-overview",
+      "type": "file",
+      "file": "Knowledge/Literature Overview.md",
+      "x": 1360,
+      "y": 0,
+      "width": 460,
+      "height": 340,
+      "color": "5"
+    },
+    {
+      "id": "node-method-taxonomy",
+      "type": "file",
+      "file": "Knowledge/Method Taxonomy.md",
+      "x": 1360,
+      "y": 420,
+      "width": 460,
+      "height": 340,
+      "color": "5"
+    },
+    {
+      "id": "node-research-gaps",
+      "type": "file",
+      "file": "Knowledge/Research Gaps.md",
+      "x": 1360,
+      "y": 840,
+      "width": 460,
+      "height": 340,
+      "color": "1"
+    },
+    {
+      "id": "node-comparison-matrix",
+      "type": "file",
+      "file": "Writing/comparison-matrix.md",
+      "x": 1360,
+      "y": 1260,
+      "width": 460,
+      "height": 340,
+      "color": "5"
+    },
+    {
+      "id": "group-synthesis-and-gaps",
+      "type": "group",
+      "label": "Synthesis & Writing",
+      "x": 1320,
+      "y": -40,
+      "width": 540,
+      "height": 1680,
+      "color": "5"
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge-node-2022_cheng_fet-benchmark-node-contact_resistance_extraction-0",
+      "fromNode": "node-2022_cheng_fet-benchmark",
+      "fromSide": "right",
+      "toNode": "node-contact_resistance_extraction",
+      "toSide": "left",
+      "label": "uses",
+      "color": "6",
+      "fromEnd": "none",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge-node-2022_cheng_fet-benchmark-node-emerging_fet_benchmarking-1",
+      "fromNode": "node-2022_cheng_fet-benchmark",
+      "fromSide": "right",
+      "toNode": "node-emerging_fet_benchmarking",
+      "toSide": "left",
+      "label": "uses",
+      "color": "6",
+      "fromEnd": "none",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge-node-2021_liu_2d-transistors-node-saturation_current_density_benchmarking-2",
+      "fromNode": "node-2021_liu_2d-transistors",
+      "fromSide": "right",
+      "toNode": "node-saturation_current_density_benchmarking",
+      "toSide": "left",
+      "label": "uses",
+      "color": "6",
+      "fromEnd": "none",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge-node-2021_liu_2d-transistors-node-two_dimensional_transistor_scaling-3",
+      "fromNode": "node-2021_liu_2d-transistors",
+      "fromSide": "right",
+      "toNode": "node-two_dimensional_transistor_scaling",
+      "toSide": "left",
+      "label": "uses",
+      "color": "6",
+      "fromEnd": "none",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge-node-contact_resistance_extraction-node-literature-overview-4",
+      "fromNode": "node-contact_resistance_extraction",
+      "fromSide": "right",
+      "toNode": "node-literature-overview",
+      "toSide": "left",
+      "label": "summarizes",
+      "color": "5",
+      "fromEnd": "none",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge-node-emerging_fet_benchmarking-node-method-taxonomy-5",
+      "fromNode": "node-emerging_fet_benchmarking",
+      "fromSide": "right",
+      "toNode": "node-method-taxonomy",
+      "toSide": "left",
+      "label": "uses",
+      "color": "3",
+      "fromEnd": "none",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge-node-saturation_current_density_benchmarking-node-research-gaps-6",
+      "fromNode": "node-saturation_current_density_benchmarking",
+      "fromSide": "right",
+      "toNode": "node-research-gaps",
+      "toSide": "left",
+      "label": "addresses",
+      "color": "1",
+      "fromEnd": "none",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge-node-two_dimensional_transistor_scaling-node-comparison-matrix-7",
+      "fromNode": "node-two_dimensional_transistor_scaling",
+      "fromSide": "right",
+      "toNode": "node-comparison-matrix",
+      "toSide": "left",
+      "label": "summarizes",
+      "color": "5",
+      "fromEnd": "none",
+      "toEnd": "arrow"
+    }
+  ]
+}

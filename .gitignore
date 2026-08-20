@@ -1,0 +1,66 @@
+# Python & Virtual Environments
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+
+# IDE & Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Temporary and local demo artifacts
+.demo_backup/
+_scratch/
+*.tmp
+*.log
+
+# Keep Obsidian configuration and plugins
+!.obsidian/
+!.obsidian/plugins/
+!.obsidian/app.json
+!.obsidian/appearance.json
+!.obsidian/community-plugins.json
+!.obsidian/core-plugins.json
+!.obsidian/graph.json
+!.obsidian/types.json
+!.obsidian/workspace.json
+
+# Agent internal coordination logs
+.agents/

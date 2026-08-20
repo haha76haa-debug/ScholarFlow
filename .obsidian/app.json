@@ -1,0 +1,19 @@
+{
+  "userIgnoreFilters": [
+    "_system/**",
+    "Templates/**",
+    "Scripts/**",
+    "src/**",
+    "tests/**",
+    ".agents/**",
+    ".demo_backup/**",
+    ".pytest_cache/**",
+    "AGENT.md",
+    "CLAUDE.md",
+    "PROJECT.md",
+    "README.md",
+    "TEST_INFRA.md",
+    "TEST_READY.md",
+    "SCHOLARFLOW_WORKFLOW_GUIDE.md"
+  ]
+}

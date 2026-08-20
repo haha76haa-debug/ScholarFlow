@@ -1,0 +1,66 @@
+schema_name: concept_schema
+version: "1.0.0"
+target_path_pattern: "Knowledge/Concepts/*.md"
+description: "Authoritative contract schema for atomic Concept and Mechanism notes in the Academic Knowledge Base Vault."
+
+required_frontmatter:
+  type:
+    type: string
+    allowed_values: ["concept"]
+    description: "Exact note type identifier for atomic concepts."
+  project:
+    type: string
+    description: "Project slug identifier (e.g. zotero_obsidian_kb)."
+  title:
+    type: string
+    description: "Canonical concept name or theoretical term."
+  status:
+    type: string
+    allowed_values: ["active", "draft", "deprecated", "archived"]
+    description: "Concept lifecycle state."
+  claim_strength:
+    type: string
+    allowed_values: ["speculative", "observed", "supported", "strong"]
+    description: "Epistemic validation level of this concept across literature."
+  primary_sources:
+    type: list
+    item_type: string
+    min_items: 1
+    description: "List of primary source papers in Sources/Papers/ establishing or refining this concept."
+  tags:
+    type: list
+    item_type: string
+    description: "Taxonomy tags (e.g. knowledge, concept, attention-mechanisms)."
+  updated:
+    type: string
+    pattern: "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(Z|[+-]\\d{2}:\\d{2}))?$"
+    description: "ISO 8601 UTC timestamp of last note update."
+
+optional_frontmatter:
+  related_concepts:
+    type: list
+    item_type: string
+    description: "List of related atomic concept notes."
+  linked_syntheses:
+    type: list
+    item_type: string
+    description: "List of higher-level synthesis notes covering this concept."
+
+required_sections:
+  - heading: "## Definition"
+    description: "Formal, unambiguous conceptual definition and physical/mathematical intuition."
+  - heading_variants:
+      - "## Mathematical Formulation"
+      - "## Mechanism"
+      - "## Algorithmic Formulation"
+    description: "Mathematical equations, tensor shapes, pseudo-code, or operational mechanism."
+  - heading: "## Primary Source Evidence"
+    description: "Citation of foundational papers with section/theorem anchors and empirical support."
+  - heading: "## Strengths & Advantages"
+    description: "Why this concept/method is effective, its computational properties, and advantages."
+  - heading: "## Known Limitations & Failure Modes"
+    description: "Theoretical bounds, memory/compute scaling constraints, sensitivity, or failure regimes."
+  - heading: "## Related Concepts & Evolution"
+    description: "How this concept connects to preceding, parallel, and succeeding concepts."
+  - heading: "## References"
+    description: "Formal bibliography wikilinks to source papers."

@@ -1,0 +1,153 @@
+schema_name: paper_schema
+version: "1.0.0"
+target_path_pattern: "Sources/Papers/*.md"
+description: "Authoritative contract schema for canonical Paper notes in the Academic Knowledge Base Vault."
+
+required_frontmatter:
+  type:
+    type: string
+    allowed_values: ["paper"]
+    description: "Exact note type identifier for academic papers."
+  project:
+    type: string
+    description: "Project slug identifier (e.g. zotero_obsidian_kb)."
+  title:
+    type: string
+    description: "Full verbatim publication title."
+  citekey:
+    type: string
+    pattern: "^[a-z0-9]+$"
+    description: "Better BibTeX citation key formatted as [auth:lower][year][veryshorttitle:lower]."
+  zotero_key:
+    type: string
+    description: "Unique alphanumeric Zotero item key."
+  status:
+    type: string
+    allowed_values: ["unread", "reading", "read", "to-review", "archived"]
+    description: "Reading and triage workflow status."
+  source_type:
+    type: string
+    allowed_values:
+      - "full paper"
+      - "preprint"
+      - "conference paper"
+      - "journal article"
+      - "abstract-only"
+      - "webpage placeholder"
+      - "book"
+      - "thesis"
+      - "report"
+    description: "Bibliographic modality and reliability classification."
+  claim_strength:
+    type: string
+    allowed_values: ["speculative", "observed", "supported", "strong"]
+    description: "Epistemic confidence rating of the paper's core claims."
+  authors:
+    type: list
+    item_type: string
+    min_items: 1
+    description: "List of contributing author names (e.g. 'Lastname, Firstname' or 'Firstname Lastname')."
+  year:
+    type: integer
+    min_value: 1900
+    max_value: 2100
+    description: "4-digit publication year."
+  linked_knowledge:
+    type: list
+    item_type: string
+    min_items: 1
+    description: "List of wikilink paths linking to synthesis or concept notes in Knowledge/."
+  updated:
+    type: string
+    pattern: "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(Z|[+-]\\d{2}:\\d{2}))?$"
+    description: "ISO 8601 UTC timestamp of the last note modification."
+
+optional_frontmatter:
+  canvas_visibility:
+    type: string
+    allowed_values: ["visible", "hidden"]
+    default: "visible"
+  venue:
+    type: string
+    default: ""
+  doi:
+    type: string
+    default: ""
+  url:
+    type: string
+    default: ""
+  keywords:
+    type: list
+    item_type: string
+  concepts:
+    type: list
+    item_type: string
+  methods:
+    type: list
+    item_type: string
+  subfield:
+    type: string
+  related_papers:
+    type: list
+    item_type: string
+  argument_claims:
+    type: list
+    item_type: string
+  argument_methods:
+    type: list
+    item_type: string
+  argument_gaps:
+    type: list
+    item_type: string
+  paper_relationships:
+    type: list
+    item_type: string
+    description: "List of typed relationships formatted as '<NotePath>::<relation>' (extends, precedes, complements, contradicts, uses)."
+  tags:
+    type: list
+    item_type: string
+
+required_sections:
+  - heading: "## Claim"
+    description: "High-level summary of the primary assertion or finding."
+  - heading: "## Research question"
+    description: "Specific problem, hypothesis, or research question addressed."
+  - heading: "## Method"
+    description: "Architecture, algorithm, mathematical formulation, or experimental design."
+  - heading: "## Evidence"
+    description: "Structured Evidence Record block containing empirical validation, datasets, benchmarks, and metrics."
+  - heading: "## Strengths"
+    description: "Identified theoretical, methodological, or empirical advantages."
+  - heading: "## Limitation"
+    description: "Boundary conditions, computational bottlenecks, or unaddressed failure modes."
+  - heading: "## Direct relevance to repo"
+    description: "Actionable takeaways and implementation insights for this project."
+  - heading: "## Relation to other papers"
+    description: "Direct comparisons and historical lineage linking to other papers."
+  - heading: "## Knowledge links"
+    description: "Bidirectional wikilinks connecting this paper to synthesis and concept notes."
+
+evidence_record_contract:
+  block_type: "md_codeblock"
+  fields:
+    - name: "Evidence ID"
+      pattern: "^EVD-[a-z0-9]+-\\d{2}$"
+      required: true
+    - name: "Source"
+      pattern: "^\\[\\[Sources/Papers/[a-z0-9]+\\]\\]$"
+      required: true
+    - name: "Source type"
+      required: true
+    - name: "Supports"
+      required: true
+    - name: "Contradicts"
+      required: false
+    - name: "Method / dataset / metric"
+      required: true
+    - name: "Limitation"
+      required: false
+    - name: "Project relevance"
+      required: true
+    - name: "Claim strength"
+      allowed_values: ["speculative", "observed", "supported", "strong"]
+      required: true
