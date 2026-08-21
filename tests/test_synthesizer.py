@@ -516,3 +516,157 @@ def test_synthesize_empty_vault_handling(tmp_path):
 
     created = run_synthesis(empty_vault)
     assert isinstance(created, (list, dict))
+
+
+# ---------------------------------------------------------------------------
+# Tier 1 & 2: 6D Microelectronics Comparison & Silicon Synthesizer Tests
+# ---------------------------------------------------------------------------
+
+def test_extract_comparison_cards_from_vault(sample_vault):
+    """Tier 1: extract_comparison_cards correctly parses comparison cards from Knowledge/Comparisons/."""
+    from kb_tools.synthesizer import extract_comparison_cards
+
+    comp_dir = sample_vault / "Knowledge" / "Comparisons"
+    comp_dir.mkdir(parents=True, exist_ok=True)
+    card_file = comp_dir / "2d_contact_vdW_vs_silicon_silicide.md"
+    card_file.write_text("""---
+type: comparison
+project: 2d-semiconductors
+title: "2D vdW Contacts vs Silicon Silicide"
+status: active
+claim_strength: strong
+primary_sources:
+  - "[[Sources/Papers/he2016deep]]"
+silicon_reference_nodes:
+  - "Silicon FinFET (5nm)"
+dimensions_covered:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+tags:
+  - type/comparison
+  - topic/silicon-analogy
+updated: 2026-08-20T12:00:00Z
+---
+# 2D vdW Contacts vs Silicon Silicide
+## Executive Overview & Silicon Analogy
+Overview text
+## 1. Physical Scaling & Electrostatic Control
+Scale text
+## 2. Ohmic Contact & Metallization Engineering
+Contact text
+## 3. Gate Dielectric & EOT Scaling
+Dielectric text
+## 4. CMOS Integration & Thermal Budget
+Budget text
+## 5. IRDS Technology Roadmap Alignment
+IRDS text
+## 6. Electrical Benchmark & Compact Modeling Matrix
+Matrix text
+## References & Evidence Anchors
+Ref text
+""", encoding="utf-8")
+
+    cards = extract_comparison_cards(sample_vault)
+    assert len(cards) == 1
+    assert cards[0]["slug"] == "2d_contact_vdW_vs_silicon_silicide"
+    assert cards[0]["title"] == "2D vdW Contacts vs Silicon Silicide"
+    assert cards[0]["claim_strength"] == "strong"
+    assert len(cards[0]["dimensions_covered"]) == 6
+    assert "## Executive Overview & Silicon Analogy" in cards[0]["body"]
+
+
+def test_extract_paper_silicon_analogy(sample_vault):
+    """Tier 1: extract_paper_silicon_analogy extracts analogy bullets and mapped comparisons."""
+    from kb_tools.synthesizer import extract_paper_silicon_analogy
+
+    paper_file = sample_vault / "Sources" / "Papers" / "sample_semiconductor.md"
+    paper_file.write_text("""---
+type: paper
+project: 2d-semiconductors
+title: "2D Semiconductor FET"
+citekey: sample_semiconductor
+status: read
+updated: 2026-08-20T12:00:00Z
+---
+# 2D Semiconductor FET
+
+## Silicon Analogy & Microelectronics Mapping
+- **Electrostatic Scaling vs GAAFET**: $\\lambda < 1.5\\text{ nm}$ enables sub-5nm scaling.
+- **Mapped Comparisons**:
+  - [[Knowledge/Comparisons/2d_scaling_vs_gaafet|2D Scaling vs GAAFET]]
+""", encoding="utf-8")
+
+    res = extract_paper_silicon_analogy(paper_file)
+    assert res["has_silicon_analogy"] is True
+    assert len(res["mapped_comparisons"]) == 1
+    assert "[[Knowledge/Comparisons/2d_scaling_vs_gaafet|2D Scaling vs GAAFET]]" in res["mapped_comparisons"]
+    assert "2D Scaling vs GAAFET" in res["silicon_benchmark"]
+
+
+def test_comparison_matrix_contains_silicon_benchmark_column(sample_vault):
+    """Tier 1: synthesize_comparison_matrix_doc includes Silicon Benchmark column when comparison cards exist."""
+    from kb_tools.synthesizer import synthesize_comparison_matrix_doc
+
+    comp_dir = sample_vault / "Knowledge" / "Comparisons"
+    comp_dir.mkdir(parents=True, exist_ok=True)
+    card_file = comp_dir / "2d_scaling.md"
+    card_file.write_text("""---
+type: comparison
+project: 2d-semiconductors
+title: "2D Scaling Benchmark"
+status: active
+claim_strength: strong
+primary_sources:
+  - "[[Sources/Papers/he2016deep]]"
+silicon_reference_nodes:
+  - "FinFET"
+dimensions_covered:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+tags:
+  - type/comparison
+  - topic/silicon-analogy
+updated: 2026-08-20T12:00:00Z
+---
+# 2D Scaling Benchmark
+## Executive Overview & Silicon Analogy
+## 1. Physical Scaling & Electrostatic Control
+## 2. Ohmic Contact & Metallization Engineering
+## 3. Gate Dielectric & EOT Scaling
+## 4. CMOS Integration & Thermal Budget
+## 5. IRDS Technology Roadmap Alignment
+## 6. Electrical Benchmark & Compact Modeling Matrix
+## References & Evidence Anchors
+""", encoding="utf-8")
+
+    doc = synthesize_comparison_matrix_doc(sample_vault)
+    assert "Silicon Benchmark / Analog" in doc
+    assert "6-Dimensional Microelectronics Benchmark Matrix (2D vs. Silicon CMOS)" in doc
+    assert "1. Physical Scaling & SCE" in doc
+    assert "2. Ohmic Contact & Metallization" in doc
+    assert "3. Gate Dielectric & EOT Scaling" in doc
+    assert "4. CMOS Integration & Thermal Budget" in doc
+    assert "5. IRDS Technology Roadmap Alignment" in doc
+    assert "6. Electrical Benchmark & Compact Modeling" in doc
+
+
+def test_synthesizer_handles_malformed_comparison_cards(sample_vault):
+    """Tier 1: extract_comparison_cards handles corrupted or unparseable files without crashing."""
+    from kb_tools.synthesizer import extract_comparison_cards
+
+    comp_dir = sample_vault / "Knowledge" / "Comparisons"
+    comp_dir.mkdir(parents=True, exist_ok=True)
+    bad_file = comp_dir / "bad_card.md"
+    bad_file.write_text("No frontmatter at all and random text", encoding="utf-8")
+
+    cards = extract_comparison_cards(sample_vault)
+    assert isinstance(cards, list)
+

@@ -4,6 +4,7 @@ Metadata, Schema, Tag Taxonomy, and Heading Linter for Obsidian Vault Notes.
 
 from __future__ import annotations
 
+import datetime
 import json
 import re
 from dataclasses import dataclass, field
@@ -18,12 +19,13 @@ from kb_tools.models import (
 )
 
 # Tag taxonomy regex patterns
-ALLOWED_TAG_PREFIXES = ("type/", "topic/", "status/", "method/")
+ALLOWED_TAG_PREFIXES = ("type/", "topic/", "status/", "method/", "tech/", "domain/")
 ALLOWED_STANDALONE_TAGS = {
     "knowledge",
     "concept",
     "paper",
     "synthesis",
+    "comparison",
     "overview",
     "taxonomy",
     "daily",
@@ -39,7 +41,18 @@ ALLOWED_STANDALONE_TAGS = {
     "nlp",
     "deep-learning",
     "attention-mechanisms",
+    "semiconductor",
+    "silicon-analogy",
+    "microelectronics",
+    "2d-materials",
+    "finfet",
+    "gaafet",
+    "cfet",
+    "vdw-contacts",
+    "salicide",
 }
+
+VALID_COMPARISON_TYPES = {"comparison", "silicon-comparison"}
 
 VALID_STATUSES = {
     "unread",
@@ -506,6 +519,150 @@ def lint_synthesis_note(
     return issues
 
 
+def lint_comparison_note(
+    path: Path,
+    frontmatter: Dict[str, Any],
+    body: str,
+    vault_dir: Path,
+) -> List[LintIssue]:
+    """Lint a 6D microelectronics comparison card in Knowledge/Comparisons/."""
+    issues: List[LintIssue] = []
+    rel_path = path.relative_to(vault_dir).as_posix() if vault_dir and path.is_relative_to(vault_dir) else path.name
+
+    # 1. Frontmatter Required Fields
+    required_fields = [
+        ("type", str, lambda v: str(v).lower() in VALID_COMPARISON_TYPES, f"type must be one of {VALID_COMPARISON_TYPES}"),
+        ("project", str, lambda v: len(str(v).strip()) > 0, "project cannot be empty"),
+        ("title", str, lambda v: len(str(v).strip()) > 0, "title cannot be empty"),
+        ("status", str, lambda v: str(v).lower() in VALID_STATUSES, f"status must be one of {VALID_STATUSES}"),
+        ("claim_strength", str, lambda v: str(v).lower() in VALID_CLAIM_STRENGTHS, f"claim_strength must be one of {VALID_CLAIM_STRENGTHS}"),
+        ("primary_sources", list, lambda v: len(v) > 0, "primary_sources must be a non-empty list"),
+        ("silicon_reference_nodes", list, lambda v: len(v) > 0, "silicon_reference_nodes must be a non-empty list"),
+        ("dimensions_covered", list, lambda v: len(v) >= 6 and all(isinstance(x, int) for x in v), "dimensions_covered must be a list of at least 6 integers"),
+        ("tags", list, lambda v: len(v) > 0, "tags must be a non-empty list"),
+    ]
+
+    for field_name, expected_type, validator, err_detail in required_fields:
+        if field_name not in frontmatter:
+            issues.append(
+                LintIssue(
+                    file_path=rel_path,
+                    severity="error",
+                    category="Frontmatter",
+                    message=f"Missing required frontmatter key: '{field_name}'",
+                )
+            )
+        else:
+            val = frontmatter[field_name]
+            if not isinstance(val, expected_type):
+                issues.append(
+                    LintIssue(
+                        file_path=rel_path,
+                        severity="error",
+                        category="Frontmatter",
+                        message=f"Key '{field_name}' must be of type {expected_type.__name__}, got {type(val).__name__}",
+                    )
+                )
+            elif validator and not validator(val):
+                issues.append(
+                    LintIssue(
+                        file_path=rel_path,
+                        severity="error",
+                        category="Frontmatter",
+                        message=f"Key '{field_name}' has invalid value: '{val}' ({err_detail})",
+                    )
+                )
+
+    # Validate updated date/datetime if present or missing
+    if "updated" not in frontmatter:
+        issues.append(
+            LintIssue(
+                file_path=rel_path,
+                severity="error",
+                category="Frontmatter",
+                message="Missing required frontmatter key: 'updated'",
+            )
+        )
+    else:
+        up_val = frontmatter["updated"]
+        if not isinstance(up_val, (str, datetime.date, datetime.datetime)):
+            issues.append(
+                LintIssue(
+                    file_path=rel_path,
+                    severity="error",
+                    category="Frontmatter",
+                    message=f"Key 'updated' must be date/string, got {type(up_val).__name__}",
+                )
+            )
+        else:
+            if isinstance(up_val, (datetime.date, datetime.datetime)):
+                up_str = up_val.isoformat()
+            else:
+                up_str = str(up_val).strip()
+            if not re.match(r"^\d{4}-\d{2}-\d{2}([T ]\d{2}:\d{2}:\d{2}(Z|[+-]\d{2}:?\d{2})?)?$", up_str):
+                issues.append(
+                    LintIssue(
+                        file_path=rel_path,
+                        severity="error",
+                        category="Frontmatter",
+                        message=f"Key 'updated' has invalid ISO date format: '{up_str}'",
+                    )
+                )
+
+    # 2. Check Mandatory Tags
+    tags = frontmatter.get("tags", [])
+    if isinstance(tags, list):
+        clean_tags = {str(t).strip().lstrip("#") for t in tags}
+        if "type/comparison" not in clean_tags and not any(t.startswith("type/comparison") for t in clean_tags):
+            issues.append(
+                LintIssue(
+                    file_path=rel_path,
+                    severity="error",
+                    category="Tag Taxonomy",
+                    message="Comparison note missing required tag: 'type/comparison'",
+                )
+            )
+        if "topic/silicon-analogy" not in clean_tags and not any(t.startswith("topic/silicon-analogy") for t in clean_tags):
+            issues.append(
+                LintIssue(
+                    file_path=rel_path,
+                    severity="error",
+                    category="Tag Taxonomy",
+                    message="Comparison note missing required tag: 'topic/silicon-analogy'",
+                )
+            )
+
+    # 3. Required Headings Check (8 Standard 6D Comparison Sections)
+    headings = _extract_headings(body)
+    normalized = [_normalize_heading(h) for h in headings]
+
+    required_heading_specs = [
+        ("## Executive Overview & Silicon Analogy", ["executive overview", "silicon analogy"]),
+        ("## 1. Physical Scaling & Electrostatic Control", ["physical scaling", "electrostatic control", "1. physical scaling"]),
+        ("## 2. Ohmic Contact & Metallization Engineering", ["ohmic contact", "metallization", "2. ohmic contact"]),
+        ("## 3. Gate Dielectric & EOT Scaling", ["gate dielectric", "eot scaling", "3. gate dielectric"]),
+        ("## 4. CMOS Integration & Thermal Budget", ["cmos integration", "thermal budget", "4. cmos integration"]),
+        ("## 5. IRDS Technology Roadmap Alignment", ["irds", "technology roadmap", "5. irds"]),
+        ("## 6. Electrical Benchmark & Compact Modeling Matrix", ["electrical benchmark", "compact modeling", "6. electrical benchmark"]),
+        ("## References & Evidence Anchors", ["references & evidence anchors", "references", "evidence anchors"]),
+    ]
+
+    for display_name, variants in required_heading_specs:
+        if not any(
+            any(v in nh for v in variants) for nh in normalized
+        ):
+            issues.append(
+                LintIssue(
+                    file_path=rel_path,
+                    severity="error",
+                    category="Heading Structure",
+                    message=f"Missing required section heading: '{display_name}'",
+                )
+            )
+
+    return issues
+
+
 def lint_file(file_path: Path, vault_dir: Optional[Path] = None) -> List[LintIssue]:
     """Lint a single file and return all identified issues."""
     path = Path(file_path).resolve()
@@ -536,7 +693,11 @@ def lint_file(file_path: Path, vault_dir: Optional[Path] = None) -> List[LintIss
 
     frontmatter, body = parse_frontmatter(content)
     if not frontmatter:
-        if rel_posix.startswith("Sources/Papers/") or rel_posix.startswith("Knowledge/Concepts/"):
+        if (
+            rel_posix.startswith("Sources/Papers/")
+            or rel_posix.startswith("Knowledge/Concepts/")
+            or rel_posix.startswith("Knowledge/Comparisons/")
+        ):
             return [
                 LintIssue(
                     file_path=rel_posix,
@@ -551,6 +712,8 @@ def lint_file(file_path: Path, vault_dir: Optional[Path] = None) -> List[LintIss
 
     if rel_posix.startswith("Sources/Papers/") or note_type == "paper":
         return lint_paper_note(path, frontmatter, body, v_dir)
+    elif rel_posix.startswith("Knowledge/Comparisons/") or note_type in ("comparison", "silicon-comparison"):
+        return lint_comparison_note(path, frontmatter, body, v_dir)
     elif rel_posix.startswith("Knowledge/Concepts/") or note_type == "concept":
         return lint_concept_note(path, frontmatter, body, v_dir)
     elif note_type in ("literature-synthesis", "method-taxonomy", "research-gaps"):
@@ -612,7 +775,11 @@ def lint_vault(vault_dir: Path, strict: bool = False) -> LintResult:
         frontmatter, body = parse_frontmatter(content)
 
         if not frontmatter:
-            if rel_posix.startswith("Sources/Papers/") or rel_posix.startswith("Knowledge/Concepts/"):
+            if (
+                rel_posix.startswith("Sources/Papers/")
+                or rel_posix.startswith("Knowledge/Concepts/")
+                or rel_posix.startswith("Knowledge/Comparisons/")
+            ):
                 result.issues.append(
                     LintIssue(
                         file_path=rel_posix,
@@ -660,6 +827,9 @@ def lint_vault(vault_dir: Path, strict: bool = False) -> LintResult:
                     seen_zotero_keys[zotero_key] = rel_posix
 
             file_issues.extend(lint_paper_note(note_path, frontmatter, body, vault_path))
+
+        elif rel_posix.startswith("Knowledge/Comparisons/") or note_type in ("comparison", "silicon-comparison"):
+            file_issues.extend(lint_comparison_note(note_path, frontmatter, body, vault_path))
 
         elif rel_posix.startswith("Knowledge/Concepts/") or note_type == "concept":
             file_issues.extend(lint_concept_note(note_path, frontmatter, body, vault_path))

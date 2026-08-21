@@ -193,6 +193,150 @@ updated: 2026-08-19T00:00:00Z
     return vault
 
 
+@pytest.fixture
+def canvas_4lane_test_vault(tmp_path):
+    """Create a mock vault containing papers, concepts, silicon comparisons, and synthesis notes."""
+    vault = tmp_path / "canvas_4lane_vault"
+    papers_dir = vault / "Sources" / "Papers"
+    concepts_dir = vault / "Knowledge" / "Concepts"
+    comparisons_dir = vault / "Knowledge" / "Comparisons"
+    knowledge_dir = vault / "Knowledge"
+    writing_dir = vault / "Writing"
+    maps_dir = vault / "Maps"
+
+    for d in [papers_dir, concepts_dir, comparisons_dir, knowledge_dir, writing_dir, maps_dir]:
+        d.mkdir(parents=True, exist_ok=True)
+
+    # Paper 1: Liu 2021
+    (papers_dir / "2021_Liu_2D-Transistors.md").write_text("""---
+type: paper
+project: 2d-semiconductors
+title: "Transistor roadmap beyond CMOS"
+citekey: 2021_Liu_2D-Transistors
+status: active
+claim_strength: strong
+authors: ["Chao Liu", "Xiangyu Zhang"]
+year: 2021
+concepts: ["Knowledge/Concepts/contact_resistance_extraction", "Knowledge/Concepts/emerging_fet_benchmarking"]
+linked_knowledge:
+  - "[[Knowledge/Comparisons/2d_contact_vdW_vs_silicon_silicide]]"
+updated: 2026-08-21T00:00:00Z
+---
+# Transistor Roadmap Beyond CMOS
+## Silicon Analogy & Microelectronics Mapping
+- [[Knowledge/Comparisons/2d_contact_vdW_vs_silicon_silicide]]
+""", encoding="utf-8")
+
+    # Paper 2: Cheng 2022
+    (papers_dir / "2022_Cheng_FET-Benchmark.md").write_text("""---
+type: paper
+project: 2d-semiconductors
+title: "How to report and benchmark emerging field-effect transistors"
+citekey: 2022_Cheng_FET-Benchmark
+status: active
+claim_strength: strong
+authors: ["Cheng Zhang", "Yelong Shen"]
+year: 2022
+concepts: ["Knowledge/Concepts/two_dimensional_transistor_scaling"]
+linked_knowledge:
+  - "[[Knowledge/Comparisons/2d_electrostatic_scaling_vs_silicon_gaafet]]"
+updated: 2026-08-21T00:00:00Z
+---
+# How to report and benchmark emerging FETs
+## Silicon Analogy & Microelectronics Mapping
+- [[Knowledge/Comparisons/2d_electrostatic_scaling_vs_silicon_gaafet]]
+""", encoding="utf-8")
+
+    # Concept 1
+    (concepts_dir / "contact_resistance_extraction.md").write_text("""---
+type: concept
+project: 2d-semiconductors
+title: "Contact Resistance Extraction"
+status: active
+claim_strength: strong
+primary_sources: ["Sources/Papers/2021_Liu_2D-Transistors"]
+tags: ["knowledge", "concept"]
+updated: 2026-08-21T00:00:00Z
+---
+# Contact Resistance Extraction
+""", encoding="utf-8")
+
+    # Concept 2
+    (concepts_dir / "two_dimensional_transistor_scaling.md").write_text("""---
+type: concept
+project: 2d-semiconductors
+title: "Two-Dimensional Transistor Scaling"
+status: active
+claim_strength: strong
+primary_sources: ["Sources/Papers/2022_Cheng_FET-Benchmark"]
+tags: ["knowledge", "concept"]
+updated: 2026-08-21T00:00:00Z
+---
+# Two-Dimensional Transistor Scaling
+""", encoding="utf-8")
+
+    # Comparison 1: Contact
+    (comparisons_dir / "2d_contact_vdW_vs_silicon_silicide.md").write_text("""---
+type: comparison
+project: 2d-semiconductors
+title: "2D vdW Contacts vs Silicon Silicide"
+status: active
+claim_strength: strong
+primary_sources:
+  - "[[Sources/Papers/2021_Liu_2D-Transistors]]"
+silicon_technology: "Silicon Silicide (NiSi/TiSi)"
+tags: ["type/comparison", "topic/silicon-analogy"]
+updated: 2026-08-21T00:00:00Z
+---
+# 2D vdW Contacts vs Silicon Silicide
+## Executive Overview & Silicon Analogy
+Comparative study.
+""", encoding="utf-8")
+
+    # Comparison 2: Electrostatic
+    (comparisons_dir / "2d_electrostatic_scaling_vs_silicon_gaafet.md").write_text("""---
+type: comparison
+project: 2d-semiconductors
+title: "2D Electrostatic Scaling vs Silicon GAAFET"
+status: active
+claim_strength: strong
+primary_sources:
+  - "[[Sources/Papers/2022_Cheng_FET-Benchmark]]"
+silicon_technology: "Silicon GAAFET (3nm/2nm)"
+tags: ["type/comparison", "topic/silicon-analogy"]
+updated: 2026-08-21T00:00:00Z
+---
+# 2D Electrostatic Scaling vs Silicon GAAFET
+## Executive Overview & Silicon Analogy
+Comparative study.
+""", encoding="utf-8")
+
+    # Synthesis 1
+    (knowledge_dir / "Literature Overview.md").write_text("""---
+type: literature-synthesis
+project: 2d-semiconductors
+title: "Literature Overview"
+status: active
+covered_papers: ["Sources/Papers/2021_Liu_2D-Transistors", "Sources/Papers/2022_Cheng_FET-Benchmark"]
+updated: 2026-08-21T00:00:00Z
+---
+# Literature Overview
+""", encoding="utf-8")
+
+    # Writing 1: comparison-matrix
+    (writing_dir / "comparison-matrix.md").write_text("""---
+type: synthesis
+project: 2d-semiconductors
+title: "Literature Comparison Matrix"
+status: active
+updated: 2026-08-21T00:00:00Z
+---
+# Comparison Matrix
+""", encoding="utf-8")
+
+    return vault
+
+
 # ==============================================================================
 # Tier 1: Unit & Schema Tests
 # ==============================================================================
@@ -418,3 +562,134 @@ def test_generate_canvas_empty_vault(tmp_path):
     assert out_file.exists()
     data = json.loads(out_file.read_text(encoding="utf-8"))
     assert data == {"nodes": [], "edges": []} or (isinstance(data.get("nodes"), list) and isinstance(data.get("edges"), list))
+
+
+# ==============================================================================
+# Tier 3: Milestone 3 (M3) 4-Lane Canvas & Graph Config Tests
+# ==============================================================================
+
+def test_canvas_4_lane_layout_coordinates_and_groups(canvas_4lane_test_vault):
+    """Test 4-lane horizontal swimlane layout coordinates and group containers."""
+    from kb_tools.canvas_gen import build_canvas_graph
+
+    canvas_data = build_canvas_graph(canvas_4lane_test_vault)
+    nodes = canvas_data["nodes"]
+    groups = [n for n in nodes if n.get("type") == "group"]
+    file_nodes = [n for n in nodes if n.get("type") == "file"]
+
+    # 4 distinct groups must exist
+    assert len(groups) == 4
+    group_labels = {g["label"] for g in groups}
+    assert "Foundational Literature" in group_labels
+    assert "Theoretical Concepts & Physics" in group_labels
+    assert "Silicon Parallels & Comparisons" in group_labels
+    assert "Synthesis & Writing" in group_labels
+
+    # Verify column X coordinates for file nodes
+    col1_nodes = [n for n in file_nodes if n["x"] == 0]
+    col2_nodes = [n for n in file_nodes if n["x"] == 680]
+    col3_nodes = [n for n in file_nodes if n["x"] == 1360]
+    col4_nodes = [n for n in file_nodes if n["x"] == 2040]
+
+    assert len(col1_nodes) == 2  # 2 Papers
+    assert len(col2_nodes) == 2  # 2 Concepts
+    assert len(col3_nodes) == 2  # 2 Silicon Comparisons
+    assert len(col4_nodes) == 2  # 2 Synthesis / Writing
+
+    # Verify group bounding box boundaries
+    group_by_label = {g["label"]: g for g in groups}
+    assert group_by_label["Foundational Literature"]["x"] == -40
+    assert group_by_label["Theoretical Concepts & Physics"]["x"] == 640
+    assert group_by_label["Silicon Parallels & Comparisons"]["x"] == 1320
+    assert group_by_label["Synthesis & Writing"]["x"] == 2000
+
+    for g in groups:
+        assert g["width"] == 540
+        assert g["y"] == -40
+        assert g["height"] > 0
+
+
+def test_canvas_comparison_nodes_cyan_color_semantics(canvas_4lane_test_vault):
+    """Test Silicon Comparison nodes and container have color #0891b2 (Cyan)."""
+    from kb_tools.canvas_gen import build_canvas_graph
+
+    canvas_data = build_canvas_graph(canvas_4lane_test_vault)
+    nodes = canvas_data["nodes"]
+
+    comp_nodes = [n for n in nodes if n.get("type") == "file" and n.get("x") == 1360]
+    assert len(comp_nodes) >= 2
+    for node in comp_nodes:
+        assert node.get("color") == "#0891b2"
+
+    comp_group = next(g for g in nodes if g.get("type") == "group" and g.get("label") == "Silicon Parallels & Comparisons")
+    assert comp_group.get("color") == "#0891b2"
+
+
+def test_canvas_4_lane_collision_free_and_edge_semantics(canvas_4lane_test_vault):
+    """Test collision-free layout and cross-lane edge routing in 4-lane canvas."""
+    from kb_tools.canvas_gen import build_canvas_graph
+
+    canvas_data = build_canvas_graph(canvas_4lane_test_vault)
+    leaf_nodes = [n for n in canvas_data["nodes"] if n.get("type") == "file"]
+    edges = canvas_data["edges"]
+
+    # Collision test across all leaf nodes
+    for i in range(len(leaf_nodes)):
+        for j in range(i + 1, len(leaf_nodes)):
+            n1 = leaf_nodes[i]
+            n2 = leaf_nodes[j]
+            x_overlap = (n1["x"] < n2["x"] + n2["width"]) and (n1["x"] + n1["width"] > n2["x"])
+            y_overlap = (n1["y"] < n2["y"] + n2["height"]) and (n1["y"] + n1["height"] > n2["y"])
+            assert not (x_overlap and y_overlap), f"Collision detected between {n1['id']} and {n2['id']}"
+
+    # Edge semantics: uses, benchmarks, maps_to, synthesizes
+    labels = {e.get("label") for e in edges if e.get("label")}
+    assert "uses" in labels
+    assert "benchmarks" in labels
+    assert "maps_to" in labels
+    assert "synthesizes" in labels
+
+    # Cyan color on comparison edges
+    silicon_edges = [e for e in edges if e.get("color") == "#0891b2"]
+    assert len(silicon_edges) >= 2
+
+
+def test_obsidian_graph_config_color_groups():
+    """Verify .obsidian/graph.json contains Knowledge/Comparisons color group with rgb 561586."""
+    graph_config_path = Path(__file__).resolve().parent.parent / ".obsidian" / "graph.json"
+    assert graph_config_path.exists()
+
+    data = json.loads(graph_config_path.read_text(encoding="utf-8"))
+    assert "colorGroups" in data
+    color_groups = data["colorGroups"]
+
+    comp_groups = [g for g in color_groups if g.get("query") == "path:Knowledge/Comparisons"]
+    assert len(comp_groups) == 1
+    assert comp_groups[0]["color"]["rgb"] == 561586
+    assert comp_groups[0]["color"]["a"] == 1
+
+
+def test_live_vault_literature_canvas_validation():
+    """Verify live vault Maps/literature.canvas is valid JSON Canvas v1.0 with 4 swimlanes."""
+    canvas_path = Path(__file__).resolve().parent.parent / "Maps" / "literature.canvas"
+    assert canvas_path.exists()
+
+    data = json.loads(canvas_path.read_text(encoding="utf-8"))
+    assert "nodes" in data
+    assert "edges" in data
+    assert len(data["nodes"]) >= 8
+    assert len(data["edges"]) >= 6
+
+    # Verify group nodes
+    groups = [n for n in data["nodes"] if n.get("type") == "group"]
+    assert len(groups) == 4
+    labels = {g["label"] for g in groups}
+    assert "Foundational Literature" in labels
+    assert "Theoretical Concepts & Physics" in labels
+    assert "Silicon Parallels & Comparisons" in labels
+    assert "Synthesis & Writing" in labels
+
+    # Check comparison group color
+    silicon_group = next(g for g in groups if g["label"] == "Silicon Parallels & Comparisons")
+    assert silicon_group["color"] == "#0891b2"
+

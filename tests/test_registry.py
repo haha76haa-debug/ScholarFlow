@@ -312,3 +312,193 @@ def test_cli_sync_registry_invalid_directory(tmp_path, capsys):
     from kb_tools.cli import main
     exit_code = main(["sync-registry", "--vault-dir", str(non_existent)])
     assert exit_code != 0
+
+
+# ---------------------------------------------------------------------------
+# Tier 1 & 2: 6D Microelectronics Comparison Registry Tests
+# ---------------------------------------------------------------------------
+
+def test_scan_comparison_notes(tmp_vault):
+    """Tier 1: scan_comparison_notes extracts comparison metadata including silicon fields."""
+    from kb_tools.registry import scan_comparison_notes
+
+    comp_dir = tmp_vault / "Knowledge" / "Comparisons"
+    comp_dir.mkdir(parents=True, exist_ok=True)
+    (comp_dir / "2d_scaling.md").write_text("""---
+type: comparison
+project: 2d-semiconductors
+title: "2D Scaling Benchmark"
+status: active
+claim_strength: strong
+primary_sources:
+  - "[[Sources/Papers/2021_Liu_2D-Transistors]]"
+silicon_reference_nodes:
+  - "Silicon FinFET (5nm)"
+  - "GAAFET (3nm)"
+dimensions_covered:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+tags:
+  - type/comparison
+  - topic/silicon-analogy
+updated: 2026-08-20T12:00:00Z
+---
+# 2D Scaling Benchmark
+> **Focus / 核心主题**: 2D FET scaling vs GAAFET.
+""", encoding="utf-8")
+
+    comps = scan_comparison_notes(tmp_vault)
+    assert len(comps) == 1
+    c = comps[0]
+    assert c["title"] == "2D Scaling Benchmark"
+    assert c["claim_strength"] == "strong"
+    assert "Silicon FinFET (5nm)" in c["silicon_reference_nodes"]
+    assert c["dimensions_covered"] == [1, 2, 3, 4, 5, 6]
+
+
+def test_generate_comparisons_table_format(tmp_vault):
+    """Tier 1: generate_comparisons_table generates markdown table with required comparison columns."""
+    from kb_tools.registry import scan_comparison_notes, generate_comparisons_table
+
+    comp_dir = tmp_vault / "Knowledge" / "Comparisons"
+    comp_dir.mkdir(parents=True, exist_ok=True)
+    (comp_dir / "2d_contact.md").write_text("""---
+type: comparison
+project: 2d-semiconductors
+title: "2D Contact vs Silicide"
+status: active
+claim_strength: strong
+primary_sources:
+  - "[[Sources/Papers/2022_Cheng_FET-Benchmark]]"
+silicon_reference_nodes:
+  - "Silicon Salicide (NiSi)"
+dimensions_covered: [1, 2, 3, 4, 5, 6]
+tags:
+  - type/comparison
+  - topic/silicon-analogy
+updated: 2026-08-20T12:00:00Z
+---
+# 2D Contact vs Silicide
+""", encoding="utf-8")
+
+    comps = scan_comparison_notes(tmp_vault)
+    table = generate_comparisons_table(comps)
+    assert "状态 Status" in table
+    assert "对照卡片 Comparison Card" in table
+    assert "对标硅基节点 Silicon Reference" in table
+    assert "核心文献 Primary Sources" in table
+    assert "证据级别 Strength" in table
+    assert "2D Contact vs Silicide" in table
+    assert "Silicon Salicide (NiSi)" in table
+
+
+def test_generate_comparisons_cards_format(tmp_vault):
+    """Tier 1: generate_comparisons_cards generates Bento-style callouts for comparison cards."""
+    from kb_tools.registry import scan_comparison_notes, generate_comparisons_cards
+
+    comp_dir = tmp_vault / "Knowledge" / "Comparisons"
+    comp_dir.mkdir(parents=True, exist_ok=True)
+    (comp_dir / "2d_contact.md").write_text("""---
+type: comparison
+project: 2d-semiconductors
+title: "2D Contact vs Silicide"
+status: active
+claim_strength: strong
+primary_sources:
+  - "[[Sources/Papers/2022_Cheng_FET-Benchmark]]"
+silicon_reference_nodes:
+  - "Silicon Salicide"
+dimensions_covered: [1, 2, 3, 4, 5, 6]
+tags:
+  - type/comparison
+  - topic/silicon-analogy
+updated: 2026-08-20T12:00:00Z
+---
+# 2D Contact vs Silicide
+> **Focus / 核心主题**: vdW contacts vs salicide metallization.
+""", encoding="utf-8")
+
+    comps = scan_comparison_notes(tmp_vault)
+    cards = generate_comparisons_cards(comps)
+    assert "> [!example]+ ⚖️ [[Knowledge/Comparisons/2d_contact|2D Contact vs Silicide]]" in cards
+    assert "对标硅基技术节点" in cards
+    assert "理论基石来源" in cards
+    assert "核心对照机制" in cards
+
+
+def test_update_02_index_section_5(tmp_vault):
+    """Tier 1: update_02_index creates Section 5 with comparison cards and table markers."""
+    from kb_tools.registry import scan_paper_notes, scan_concept_notes, scan_comparison_notes, update_02_index
+
+    comp_dir = tmp_vault / "Knowledge" / "Comparisons"
+    comp_dir.mkdir(parents=True, exist_ok=True)
+    (comp_dir / "2d_scaling.md").write_text("""---
+type: comparison
+project: 2d-semiconductors
+title: "2D Scaling Benchmark"
+status: active
+claim_strength: strong
+primary_sources:
+  - "[[Sources/Papers/2021_Liu_2D-Transistors]]"
+silicon_reference_nodes:
+  - "FinFET"
+dimensions_covered: [1, 2, 3, 4, 5, 6]
+tags:
+  - type/comparison
+  - topic/silicon-analogy
+updated: 2026-08-20T12:00:00Z
+---
+# 2D Scaling Benchmark
+""", encoding="utf-8")
+
+    papers = scan_paper_notes(tmp_vault)
+    concepts = scan_concept_notes(tmp_vault)
+    comps = scan_comparison_notes(tmp_vault)
+
+    update_02_index(tmp_vault, papers, concepts, comparisons=comps)
+
+    index_text = (tmp_vault / "02-Index.md").read_text(encoding="utf-8")
+    assert "## 💎 5. 硅基技术映射与对比矩阵 (Silicon Parallels & Comparison Benchmark)" in index_text
+    assert "<!-- BEGIN AUTO REGISTRY: COMPARISONS_CARDS -->" in index_text
+    assert "<!-- END AUTO REGISTRY: COMPARISONS_CARDS -->" in index_text
+    assert "<!-- BEGIN AUTO REGISTRY: COMPARISONS -->" in index_text
+    assert "<!-- END AUTO REGISTRY: COMPARISONS -->" in index_text
+    assert "💎 硅基对照卡片" in index_text
+    assert "1 篇" in index_text
+
+
+def test_registry_sync_includes_comparisons_count(tmp_vault):
+    """Tier 1: sync_registry returns comparisons_count and comparisons in summary dict."""
+    from kb_tools.registry import sync_registry
+
+    comp_dir = tmp_vault / "Knowledge" / "Comparisons"
+    comp_dir.mkdir(parents=True, exist_ok=True)
+    (comp_dir / "2d_scaling.md").write_text("""---
+type: comparison
+project: 2d-semiconductors
+title: "2D Scaling Benchmark"
+status: active
+claim_strength: strong
+primary_sources:
+  - "[[Sources/Papers/2021_Liu_2D-Transistors]]"
+silicon_reference_nodes:
+  - "FinFET"
+dimensions_covered: [1, 2, 3, 4, 5, 6]
+tags:
+  - type/comparison
+  - topic/silicon-analogy
+updated: 2026-08-20T12:00:00Z
+---
+# 2D Scaling Benchmark
+""", encoding="utf-8")
+
+    res = sync_registry(tmp_vault)
+    assert res["status"] == "success"
+    assert res["comparisons_count"] == 1
+    assert len(res["comparisons"]) == 1
+    assert res["comparisons"][0]["title"] == "2D Scaling Benchmark"
+

@@ -38,6 +38,10 @@ class ScannedNote:
     linked_sources: List[str] = field(default_factory=list)
     concepts: List[str] = field(default_factory=list)
     updated: str = ""
+    silicon_reference_nodes: List[str] = field(default_factory=list)
+    silicon_technology: str = ""
+    claim_strength: str = ""
+    dimensions_covered: List[int] = field(default_factory=list)
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -59,6 +63,10 @@ class ScannedNote:
             "linked_sources": self.linked_sources,
             "concepts": self.concepts,
             "updated": self.updated,
+            "silicon_reference_nodes": self.silicon_reference_nodes,
+            "silicon_technology": self.silicon_technology,
+            "claim_strength": self.claim_strength,
+            "dimensions_covered": self.dimensions_covered,
         }
 
 
@@ -91,13 +99,15 @@ def _extract_note_info(note_path: Path, vault_dir: Path) -> Optional[ScannedNote
     # Extract Claim summary
     claim = ""
     for line in body.splitlines():
-        if "[CN]" in line or "核心主张" in line or "概念定义" in line:
+        if "[CN]" in line or "核心主张" in line or "概念定义" in line or "核心主题" in line or "Focus" in line:
             parts = re.split(r"[：:]", line, maxsplit=1)
             if len(parts) > 1:
                 claim = parts[1].strip().strip("*()（）")
                 break
 
     note_type = str(fm.get("type", "note")).strip()
+    if not claim and note_type in ("comparison", "silicon-comparison"):
+        claim = "6维微电子工程技术映射与硅基标杆对照。"
     status = str(fm.get("status", "active")).strip()
     year = str(fm.get("year", "")).strip()
     venue = str(fm.get("venue", "")).strip()
@@ -124,6 +134,16 @@ def _extract_note_info(note_path: Path, vault_dir: Path) -> Optional[ScannedNote
     if isinstance(covered_papers, list):
         linked_sources.extend([str(s) for s in covered_papers])
 
+    # Extract Comparison-specific fields
+    silicon_ref_raw = fm.get("silicon_reference_nodes", fm.get("silicon_reference_node", []))
+    silicon_reference_nodes = [str(n) for n in silicon_ref_raw] if isinstance(silicon_ref_raw, list) else ([str(silicon_ref_raw)] if silicon_ref_raw else [])
+
+    silicon_technology = str(fm.get("silicon_technology", "")).strip()
+    claim_strength = str(fm.get("claim_strength", "")).strip()
+
+    dims_raw = fm.get("dimensions_covered", [])
+    dimensions_covered = [int(d) for d in dims_raw if str(d).isdigit()] if isinstance(dims_raw, list) else []
+
     return ScannedNote(
         rel_path=rel_posix,
         stem=note_path.stem,
@@ -142,6 +162,10 @@ def _extract_note_info(note_path: Path, vault_dir: Path) -> Optional[ScannedNote
         linked_sources=linked_sources,
         concepts=concepts,
         updated=updated,
+        silicon_reference_nodes=silicon_reference_nodes,
+        silicon_technology=silicon_technology,
+        claim_strength=claim_strength,
+        dimensions_covered=dimensions_covered,
     )
 
 
@@ -196,6 +220,108 @@ def scan_concept_notes(vault_dir: Path) -> List[Dict[str, Any]]:
 
     sorted_concepts = sorted(concepts, key=lambda x: (x.note_type, x.title))
     return [c.to_dict() for c in sorted_concepts]
+
+
+def scan_comparison_notes(vault_dir: Path) -> List[Dict[str, Any]]:
+    """Scan 6D microelectronics comparison notes in Knowledge/Comparisons/."""
+    vault_path = Path(vault_dir).resolve()
+    comparisons_dir = vault_path / "Knowledge" / "Comparisons"
+    comparisons: List[ScannedNote] = []
+
+    if comparisons_dir.exists():
+        for p in comparisons_dir.glob("*.md"):
+            if p.name in INDEX_FILENAMES:
+                continue
+            info = _extract_note_info(p, vault_path)
+            if info:
+                comparisons.append(info)
+    else:
+        knowledge_dir = vault_path / "Knowledge"
+        if knowledge_dir.exists():
+            for p in knowledge_dir.rglob("*.md"):
+                if p.name in INDEX_FILENAMES:
+                    continue
+                info = _extract_note_info(p, vault_path)
+                if info and (info.note_type in ("comparison", "silicon-comparison") or "Comparisons" in p.parts):
+                    comparisons.append(info)
+
+    sorted_comparisons = sorted(comparisons, key=lambda x: (x.note_type, x.title.lower()))
+    return [c.to_dict() for c in sorted_comparisons]
+
+
+def generate_comparisons_cards(comparisons: List[Dict[str, Any]]) -> str:
+    """Generate Bento-style 6D microelectronics comparison cards."""
+    if not comparisons:
+        return "*暂无硅基对比卡片 / No comparison cards recorded yet.*"
+
+    cards = []
+    for c in comparisons:
+        rel = c.get("rel_path", "")
+        target = rel[:-3] if rel.endswith(".md") else rel
+        title = c.get("title", "Untitled Comparison")
+        cn_title = c.get("cn_title", "")
+        raw_status = c.get("status", "active")
+        status_badge = f"`🔬 {raw_status.capitalize()}`"
+        claim_strength = c.get("claim_strength", "Strong")
+
+        sources_raw = c.get("linked_sources", [])
+        sources_clean = []
+        for s in sources_raw[:3]:
+            s_clean = re.sub(r"[\[\]]", "", str(s))
+            sources_clean.append(f"[[{s_clean}]]")
+        sources_str = ", ".join(sources_clean) if sources_clean else "-"
+
+        nodes_raw = c.get("silicon_reference_nodes", [])
+        nodes_str = ", ".join([f"`{n}`" for n in nodes_raw]) if nodes_raw else (f"`{c.get('silicon_technology')}`" if c.get("silicon_technology") else "-")
+
+        claim = c.get("claim", "6维微电子工程技术映射与硅基标杆对照。")
+        cn_line = f"\n> > 💡 **中文导读**：*{cn_title}*" if cn_title else ""
+
+        dims = c.get("dimensions_covered", [])
+        dim_str = f"{len(dims)}/6 维工程对照" if dims else "6/6 维全景对照"
+
+        card = f"""> [!example]+ ⚖️ [[{target}|{title}]]{cn_line}
+> - 🏛️ **对标硅基技术节点**：{nodes_str}
+> - 📚 **理论基石来源**：{sources_str}
+> - 🎯 **核心对照机制**：{claim}
+> - 🏷️ **状态评级**：{status_badge} ｜ **证据级别**: `{claim_strength.capitalize()}` ｜ **工程维度**: `{dim_str}`"""
+        cards.append(card)
+
+    return "\n\n".join(cards)
+
+
+def generate_comparisons_table(comparisons: List[Dict[str, Any]]) -> str:
+    """Generate formatted markdown table for 6D microelectronics comparison cards."""
+    if not comparisons:
+        return "*暂无硅基对比矩阵 / No comparison table recorded yet.*"
+
+    lines = [
+        "| 状态 Status | 对照卡片 Comparison Card | 对标硅基节点 Silicon Reference | 核心文献 Primary Sources | 证据级别 Strength |",
+        "| :---: | :--- | :--- | :--- | :---: |",
+    ]
+
+    for c in comparisons:
+        rel = c.get("rel_path", "")
+        target = rel[:-3] if rel.endswith(".md") else rel
+        title = str(c.get("title", "")).replace("|", "\\|")
+        raw_status = c.get("status", "active")
+        status_badge = f"`🔬 {raw_status.capitalize()}`"
+        claim_strength = str(c.get("claim_strength", "Strong")).capitalize()
+
+        nodes_raw = c.get("silicon_reference_nodes", [])
+        nodes_str = ", ".join([f"`{str(n).replace('|', '')}`" for n in nodes_raw[:3]]) if nodes_raw else (f"`{str(c.get('silicon_technology', '')).replace('|', '')}`" if c.get("silicon_technology") else "-")
+
+        sources_raw = c.get("linked_sources", [])
+        sources_clean = []
+        for s in sources_raw[:3]:
+            s_clean = re.sub(r"[\[\]]", "", str(s)).split("/")[-1]
+            sources_clean.append(f"`{s_clean}`")
+        sources_str = ", ".join(sources_clean) if sources_clean else "-"
+
+        link = f"[[{target}|{title}]]"
+        lines.append(f"| {status_badge} | {link} | {nodes_str} | {sources_str} | `{claim_strength}` |")
+
+    return "\n".join(lines)
 
 
 def generate_papers_table(papers: List[Dict[str, Any]]) -> str:
@@ -276,7 +402,11 @@ def generate_knowledge_table(concepts: List[Dict[str, Any]]) -> str:
         status_badge = f"`🔬 {raw_status.capitalize()}`"
 
         sources_raw = c.get("linked_sources", [])
-        sources_str = ", ".join([f"`{re.sub(r'[\[\]]', '', str(s)).split('/')[-1]}`" for s in sources_raw[:3]]) if sources_raw else "-"
+        sources_clean = []
+        for s in sources_raw[:3]:
+            s_clean = re.sub(r"[\[\]]", "", str(s)).split("/")[-1]
+            sources_clean.append(f"`{s_clean}`")
+        sources_str = ", ".join(sources_clean) if sources_clean else "-"
         tags_raw = c.get("tags", [])
         tags_str = " ".join([f"`{t}`" for t in tags_raw[:3]]) if tags_raw else "-"
         link = f"[[{target}|{title}]]"
@@ -299,7 +429,11 @@ def generate_concepts_cards(concepts: List[Dict[str, Any]]) -> str:
         cn_title = c.get("cn_title", "")
         note_type = c.get("type", "concept")
         sources_raw = c.get("linked_sources", [])
-        sources_str = ", ".join([f"[[{re.sub(r'[\[\]]', '', str(s))}]]" for s in sources_raw[:2]]) if sources_raw else "-"
+        sources_clean = []
+        for s in sources_raw[:2]:
+            s_clean = re.sub(r"[\[\]]", "", str(s))
+            sources_clean.append(f"[[{s_clean}]]")
+        sources_str = ", ".join(sources_clean) if sources_clean else "-"
         claim = c.get("claim", "核心理论机制。")
 
         cn_line = f"\n> > 💡 **中文概念**：*{cn_title}*" if cn_title else ""
@@ -507,19 +641,26 @@ def update_02_index(
     vault_dir: Path,
     papers: List[Dict[str, Any]],
     knowledge: List[Dict[str, Any]],
+    comparisons: Optional[List[Dict[str, Any]]] = None,
     dry_run: bool = False,
 ) -> None:
     """Update 02-Index.md as the complete, single unified Master Knowledge Index."""
     index_file = vault_dir / "02-Index.md"
-    
+
+    if comparisons is None:
+        comparisons = scan_comparison_notes(vault_dir)
+
     concepts = [k for k in knowledge if k.get("type") == "concept" or "Concepts" in k.get("rel_path", "")]
     paper_cards = generate_papers_cards(papers)
     paper_table = generate_papers_table(papers)
     concept_cards = generate_concepts_cards(concepts)
     concept_table = generate_knowledge_table(concepts)
+    comparison_cards = generate_comparisons_cards(comparisons)
+    comparison_table = generate_comparisons_table(comparisons)
 
     paper_count = len(papers)
     concept_count = len(concepts)
+    comparison_count = len(comparisons)
 
     master_index_content = f"""---
 type: index
@@ -531,9 +672,9 @@ updated: 2026-08-20T13:10:00Z
 # 🌐 全局知识索引与内容总览 (Master Knowledge Hub & Index)
 
 > [!abstract]+ 📊 知识库实时全景看板 (Knowledge Base Dashboard)
-> | 📚 核心收录文献 | 🧬 提炼原子概念 | 🌳 方法学分类体系 | 🎯 开放研究空白 | 🗺️ 交互知识图谱 |
-> | :---: | :---: | :---: | :---: | :---: |
-> | **{paper_count} 篇** | **{concept_count} 个** | **3 大类** | **2 项** | 👉 [[Maps/literature.canvas|打开交互画布]] |
+> | 📚 核心收录文献 | 🧬 提炼原子概念 | 💎 硅基对照卡片 | 🌳 方法学分类体系 | 🎯 开放研究空白 | 🗺️ 交互知识图谱 |
+> | :---: | :---: | :---: | :---: | :---: | :---: |
+> | **{paper_count} 篇** | **{concept_count} 个** | **{comparison_count} 篇** | **3 大类** | **2 项** | 👉 [[Maps/literature.canvas|打开交互画布]] |
 >
 > 🧭 **快捷导航**：[[00-Hub|项目总览 (Hub)]] ｜ [[01-Plan|研究规划 (Plan)]] ｜ [[Writing/comparison-matrix|跨文献横向对比矩阵]] ｜ [[_system/registry|底层元数据注册表]]
 
@@ -588,6 +729,28 @@ updated: 2026-08-20T13:10:00Z
 
 ## 📝 4. 论文写作与横向对比 (`Writing/`)
 - 📊 **学术对比矩阵**：[[Writing/comparison-matrix|Literature Comparison Matrix (跨文献全景横向对比矩阵)]]
+
+---
+
+## 💎 5. 硅基技术映射与对比矩阵 (Silicon Parallels & Comparison Benchmark)
+
+### 🗂️ 6维微电子技术映射卡片 (Comparison Cards)
+
+<!-- BEGIN AUTO REGISTRY: COMPARISONS_CARDS -->
+
+{comparison_cards}
+
+<!-- END AUTO REGISTRY: COMPARISONS_CARDS -->
+
+### 📑 对标硅基微电子矩阵汇总表 (Comparison Table)
+
+<!-- BEGIN AUTO REGISTRY: COMPARISONS -->
+
+{comparison_table}
+
+<!-- END AUTO REGISTRY: COMPARISONS -->
+
+- 📊 **学术对比全景矩阵**：[[Writing/comparison-matrix|Literature Comparison Matrix (跨文献与硅基对标全景矩阵)]]
 """
 
     if not dry_run:
@@ -602,6 +765,7 @@ def sync_registry(vault_dir: Path, dry_run: bool = False) -> Dict[str, Any]:
 
     papers = scan_paper_notes(vault_path)
     concepts = scan_concept_notes(vault_path)
+    comparisons = scan_comparison_notes(vault_path)
 
     all_notes = scan_vault_notes(vault_path)
     knowledge_all: List[Dict[str, Any]] = []
@@ -625,6 +789,8 @@ def sync_registry(vault_dir: Path, dry_run: bool = False) -> Dict[str, Any]:
             archive.append(info.to_dict())
         elif rel.startswith("Knowledge/") or info.note_type in (
             "concept",
+            "comparison",
+            "silicon-comparison",
             "literature-synthesis",
             "method-taxonomy",
             "research-gaps",
@@ -665,7 +831,7 @@ def sync_registry(vault_dir: Path, dry_run: bool = False) -> Dict[str, Any]:
         system_registry_file.write_text(system_registry_content, encoding="utf-8")
 
     # 2. 02-Index.md (Single Unified Master Index)
-    update_02_index(vault_path, papers, knowledge_all, dry_run=dry_run)
+    update_02_index(vault_path, papers, knowledge_all, comparisons=comparisons, dry_run=dry_run)
 
     return {
         "status": "success",
@@ -674,6 +840,8 @@ def sync_registry(vault_dir: Path, dry_run: bool = False) -> Dict[str, Any]:
         "papers": papers,
         "knowledge_count": len(knowledge_all),
         "concepts_count": len(concepts),
+        "comparisons_count": len(comparisons),
+        "comparisons": comparisons,
         "writing_count": len(writing),
         "archive_count": len(archive),
         "maps_count": len(maps_files),

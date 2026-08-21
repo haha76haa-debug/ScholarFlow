@@ -503,3 +503,322 @@ def test_cli_lint_single_file_target(populated_vault, capsys):
     from kb_tools.cli import main
     exit_code = main(["lint", str(resnet_path), "--vault-dir", str(populated_vault)])
     assert exit_code == 0
+
+
+# ---------------------------------------------------------------------------
+# Tier 1 & 2: 6D Microelectronics Comparison Card Lint Tests
+# ---------------------------------------------------------------------------
+
+def test_valid_comparison_note_passes_lint(tmp_vault):
+    """Tier 1: A valid 6D microelectronics comparison card passes lint with 0 errors and 0 warnings."""
+    from kb_tools.linter import lint_file
+    comp_dir = tmp_vault / "Knowledge" / "Comparisons"
+    comp_dir.mkdir(parents=True, exist_ok=True)
+    card_file = comp_dir / "2d_scaling_vs_gaafet.md"
+    card_file.write_text("""---
+type: comparison
+project: 2d-semiconductors
+title: "2D Electrostatic Scaling vs. Silicon FinFET & GAAFET"
+status: active
+claim_strength: strong
+primary_sources:
+  - "[[Sources/Papers/2021_Liu_2D-Transistors]]"
+silicon_reference_nodes:
+  - "Silicon FinFET (5nm)"
+  - "Silicon GAAFET (3nm/2nm)"
+dimensions_covered:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+tags:
+  - type/comparison
+  - topic/silicon-analogy
+  - tech/2d-semiconductor
+updated: 2026-08-20T12:00:00Z
+---
+# 2D Electrostatic Scaling vs. Silicon FinFET & GAAFET
+## Executive Overview & Silicon Analogy
+Overview text contrasting 2D with Si.
+## 1. Physical Scaling & Electrostatic Control
+Dimension 1 text.
+## 2. Ohmic Contact & Metallization Engineering
+Dimension 2 text.
+## 3. Gate Dielectric & EOT Scaling
+Dimension 3 text.
+## 4. CMOS Integration & Thermal Budget
+Dimension 4 text.
+## 5. IRDS Technology Roadmap Alignment
+Dimension 5 text.
+## 6. Electrical Benchmark & Compact Modeling Matrix
+Dimension 6 text.
+## References & Evidence Anchors
+- [[Sources/Papers/2021_Liu_2D-Transistors]]
+""", encoding="utf-8")
+
+    issues = lint_file(card_file, vault_dir=tmp_vault)
+    errors = [i for i in issues if i.severity == "error"]
+    assert len(errors) == 0, f"Expected 0 errors on valid comparison card, got: {errors}"
+
+
+def test_comparison_note_missing_required_frontmatter(tmp_vault):
+    """Tier 1: Comparison note missing primary_sources or silicon_reference_nodes fails validation."""
+    from kb_tools.linter import lint_file
+    comp_dir = tmp_vault / "Knowledge" / "Comparisons"
+    comp_dir.mkdir(parents=True, exist_ok=True)
+    bad_card = comp_dir / "missing_fields.md"
+    bad_card.write_text("""---
+type: comparison
+project: 2d-semiconductors
+title: "Incomplete Comparison"
+status: active
+claim_strength: strong
+tags:
+  - type/comparison
+  - topic/silicon-analogy
+updated: 2026-08-20T12:00:00Z
+---
+# Incomplete Comparison
+## Executive Overview & Silicon Analogy
+Text
+## 1. Physical Scaling & Electrostatic Control
+Text
+## 2. Ohmic Contact & Metallization Engineering
+Text
+## 3. Gate Dielectric & EOT Scaling
+Text
+## 4. CMOS Integration & Thermal Budget
+Text
+## 5. IRDS Technology Roadmap Alignment
+Text
+## 6. Electrical Benchmark & Compact Modeling Matrix
+Text
+## References & Evidence Anchors
+Text
+""", encoding="utf-8")
+
+    issues = lint_file(bad_card, vault_dir=tmp_vault)
+    errors = [i for i in issues if i.severity == "error"]
+    error_msgs = " ".join(i.message for i in errors)
+    assert "primary_sources" in error_msgs
+    assert "silicon_reference_nodes" in error_msgs
+    assert "dimensions_covered" in error_msgs
+
+
+def test_comparison_note_invalid_enum_and_types(tmp_vault):
+    """Tier 1: Comparison note with invalid type, status, or claim_strength fails lint."""
+    from kb_tools.linter import lint_file
+    comp_dir = tmp_vault / "Knowledge" / "Comparisons"
+    comp_dir.mkdir(parents=True, exist_ok=True)
+    bad_card = comp_dir / "bad_enums.md"
+    bad_card.write_text("""---
+type: invalid-type
+project: 2d-semiconductors
+title: "Bad Enums"
+status: invalid-status
+claim_strength: invalid-strength
+primary_sources: "not-a-list"
+silicon_reference_nodes: []
+dimensions_covered: [1, 2, "three", 4, 5, 6]
+tags:
+  - type/comparison
+  - topic/silicon-analogy
+updated: 2026-08-20T12:00:00Z
+---
+# Bad Enums
+## Executive Overview & Silicon Analogy
+## 1. Physical Scaling & Electrostatic Control
+## 2. Ohmic Contact & Metallization Engineering
+## 3. Gate Dielectric & EOT Scaling
+## 4. CMOS Integration & Thermal Budget
+## 5. IRDS Technology Roadmap Alignment
+## 6. Electrical Benchmark & Compact Modeling Matrix
+## References & Evidence Anchors
+""", encoding="utf-8")
+
+    issues = lint_file(bad_card, vault_dir=tmp_vault)
+    errors = [i for i in issues if i.severity == "error"]
+    assert len(errors) >= 3
+
+
+def test_comparison_note_dimensions_covered_boundary(tmp_vault):
+    """Tier 1: dimensions_covered must be a list of at least 6 integers."""
+    from kb_tools.linter import lint_file
+    comp_dir = tmp_vault / "Knowledge" / "Comparisons"
+    comp_dir.mkdir(parents=True, exist_ok=True)
+    bad_card = comp_dir / "too_few_dims.md"
+    bad_card.write_text("""---
+type: comparison
+project: 2d-semiconductors
+title: "Too Few Dimensions"
+status: active
+claim_strength: strong
+primary_sources:
+  - "[[Sources/Papers/2021_Liu_2D-Transistors]]"
+silicon_reference_nodes:
+  - "FinFET"
+dimensions_covered:
+  - 1
+  - 2
+  - 3
+tags:
+  - type/comparison
+  - topic/silicon-analogy
+updated: 2026-08-20T12:00:00Z
+---
+# Too Few Dimensions
+## Executive Overview & Silicon Analogy
+## 1. Physical Scaling & Electrostatic Control
+## 2. Ohmic Contact & Metallization Engineering
+## 3. Gate Dielectric & EOT Scaling
+## 4. CMOS Integration & Thermal Budget
+## 5. IRDS Technology Roadmap Alignment
+## 6. Electrical Benchmark & Compact Modeling Matrix
+## References & Evidence Anchors
+""", encoding="utf-8")
+
+    issues = lint_file(bad_card, vault_dir=tmp_vault)
+    errors = [i for i in issues if i.severity == "error"]
+    error_msgs = " ".join(i.message for i in errors)
+    assert "dimensions_covered" in error_msgs
+
+
+def test_comparison_note_missing_mandatory_tags(tmp_vault):
+    """Tier 1: Comparison note missing type/comparison or topic/silicon-analogy fails lint."""
+    from kb_tools.linter import lint_file
+    comp_dir = tmp_vault / "Knowledge" / "Comparisons"
+    comp_dir.mkdir(parents=True, exist_ok=True)
+    bad_card = comp_dir / "bad_tags.md"
+    bad_card.write_text("""---
+type: comparison
+project: 2d-semiconductors
+title: "Missing Tags"
+status: active
+claim_strength: strong
+primary_sources:
+  - "[[Sources/Papers/2021_Liu_2D-Transistors]]"
+silicon_reference_nodes:
+  - "FinFET"
+dimensions_covered:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+tags:
+  - tech/2d-semiconductor
+updated: 2026-08-20T12:00:00Z
+---
+# Missing Tags
+## Executive Overview & Silicon Analogy
+## 1. Physical Scaling & Electrostatic Control
+## 2. Ohmic Contact & Metallization Engineering
+## 3. Gate Dielectric & EOT Scaling
+## 4. CMOS Integration & Thermal Budget
+## 5. IRDS Technology Roadmap Alignment
+## 6. Electrical Benchmark & Compact Modeling Matrix
+## References & Evidence Anchors
+""", encoding="utf-8")
+
+    issues = lint_file(bad_card, vault_dir=tmp_vault)
+    errors = [i for i in issues if i.severity == "error"]
+    error_msgs = " ".join(i.message for i in errors)
+    assert "type/comparison" in error_msgs or "topic/silicon-analogy" in error_msgs
+
+
+def test_comparison_note_missing_required_headings(tmp_vault):
+    """Tier 1: Comparison note missing any of the 8 required H2 headings fails lint."""
+    from kb_tools.linter import lint_file
+    comp_dir = tmp_vault / "Knowledge" / "Comparisons"
+    comp_dir.mkdir(parents=True, exist_ok=True)
+    bad_card = comp_dir / "missing_headings.md"
+    bad_card.write_text("""---
+type: comparison
+project: 2d-semiconductors
+title: "Missing Headings"
+status: active
+claim_strength: strong
+primary_sources:
+  - "[[Sources/Papers/2021_Liu_2D-Transistors]]"
+silicon_reference_nodes:
+  - "FinFET"
+dimensions_covered:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+tags:
+  - type/comparison
+  - topic/silicon-analogy
+updated: 2026-08-20T12:00:00Z
+---
+# Missing Headings
+## Executive Overview & Silicon Analogy
+Overview text
+## 1. Physical Scaling & Electrostatic Control
+Scale text
+## References & Evidence Anchors
+Ref text
+""", encoding="utf-8")
+
+    issues = lint_file(bad_card, vault_dir=tmp_vault)
+    errors = [i for i in issues if i.severity == "error"]
+    error_msgs = " ".join(i.message for i in errors)
+    assert "Missing required section heading" in error_msgs
+
+
+def test_cli_lint_comparison_note_single_file_and_strict(tmp_vault, capsys):
+    """Tier 2: CLI `kb-tools lint <comparison_note> --strict` exits 0 on valid note."""
+    comp_dir = tmp_vault / "Knowledge" / "Comparisons"
+    comp_dir.mkdir(parents=True, exist_ok=True)
+    card_file = comp_dir / "2d_scaling.md"
+    card_file.write_text("""---
+type: comparison
+project: 2d-semiconductors
+title: "2D Scaling Benchmark"
+status: active
+claim_strength: strong
+primary_sources:
+  - "[[Sources/Papers/2021_Liu_2D-Transistors]]"
+silicon_reference_nodes:
+  - "FinFET"
+dimensions_covered:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+tags:
+  - type/comparison
+  - topic/silicon-analogy
+updated: 2026-08-20T12:00:00Z
+---
+# 2D Scaling Benchmark
+## Executive Overview & Silicon Analogy
+Overview
+## 1. Physical Scaling & Electrostatic Control
+1
+## 2. Ohmic Contact & Metallization Engineering
+2
+## 3. Gate Dielectric & EOT Scaling
+3
+## 4. CMOS Integration & Thermal Budget
+4
+## 5. IRDS Technology Roadmap Alignment
+5
+## 6. Electrical Benchmark & Compact Modeling Matrix
+6
+## References & Evidence Anchors
+Ref
+""", encoding="utf-8")
+
+    from kb_tools.cli import main
+    exit_code = main(["lint", str(card_file), "--vault-dir", str(tmp_vault), "--strict"])
+    assert exit_code == 0
+

@@ -91,6 +91,15 @@ def create_parser() -> argparse.ArgumentParser:
     ingest_parser.add_argument("--dry-run", action="store_true", help="Do not write changes to disk")
     ingest_parser.add_argument("--json", action="store_true", help="Output result as JSON")
 
+    # 8. run-pipeline / run_pipeline
+    for name in ("run-pipeline", "run_pipeline"):
+        pipeline_parser = subparsers.add_parser(name, help="Execute full 5-step knowledge base maintenance pipeline")
+        _add_common_vault_args(pipeline_parser)
+        pipeline_parser.add_argument("--strict", action="store_true", default=True, help="Treat warnings as fatal errors (default True)")
+        pipeline_parser.add_argument("--no-strict", dest="strict", action="store_false", help="Do not treat warnings as fatal errors")
+        pipeline_parser.add_argument("--dry-run", action="store_true", help="Execute pipeline steps without writing changes to disk")
+        pipeline_parser.add_argument("--json", action="store_true", help="Output pipeline summary and step results as JSON")
+
     return parser
 
 
@@ -305,6 +314,203 @@ def handle_ingest(args: argparse.Namespace) -> int:
     return 0
 
 
+def handle_run_pipeline(args: argparse.Namespace) -> int:
+    """Execute full 5-step self-iteration pipeline:
+    1. Lint (--strict)
+    2. Sync Registry
+    3. Check Links
+    4. Synthesize
+    5. Generate Canvas
+    """
+    vault_dir = _resolve_vault_dir(args)
+    if not vault_dir.exists():
+        print(f"Error: Vault directory '{vault_dir}' not found.", file=sys.stderr)
+        return 1
+
+    strict = getattr(args, "strict", True)
+    dry_run = getattr(args, "dry_run", False)
+    is_json = getattr(args, "json", False)
+
+    steps_results = []
+    overall_passed = True
+
+    if not is_json:
+        print("=" * 70)
+        print("[*] Running Academic Knowledge Base Self-Iteration Pipeline (5 Steps)")
+        print(f"[>] Vault Root: {vault_dir}")
+        print(f"[>] Options: strict={strict}, dry_run={dry_run}")
+        print("=" * 70)
+
+    # -------------------------------------------------------------
+    # Step 1: Strict Schema & Evidence Linter
+    # -------------------------------------------------------------
+    if not is_json:
+        print("\n>> Step 1/5: Strict Schema & Evidence Linter...")
+
+    try:
+        lint_res = lint_vault(vault_dir, strict=strict)
+        if not dry_run:
+            write_lint_report(lint_res, vault_dir)
+        step1_passed = not (lint_res.error_count > 0 or (strict and lint_res.warning_count > 0))
+        steps_results.append({
+            "step": 1,
+            "name": "lint",
+            "passed": step1_passed,
+            "scanned": lint_res.total_files_scanned,
+            "errors": lint_res.error_count,
+            "warnings": lint_res.warning_count,
+            "issues": [{"severity": i.severity, "category": i.category, "file": i.file_path, "message": i.message} for i in lint_res.issues[:10]],
+        })
+        if not step1_passed:
+            overall_passed = False
+            if not is_json:
+                print(f"[!] LINT FAILED: {lint_res.error_count} errors, {lint_res.warning_count} warnings.")
+                for i in lint_res.issues[:5]:
+                    print(f"    - [{i.severity.upper()}] {i.file_path}: {i.message}")
+        else:
+            if not is_json:
+                print(f"[PASS] Scanned {lint_res.total_files_scanned} notes. Errors: 0, Warnings: {lint_res.warning_count}.")
+    except Exception as e:
+        overall_passed = False
+        steps_results.append({"step": 1, "name": "lint", "passed": False, "error": str(e)})
+        if not is_json:
+            print(f"[!] Error in Step 1 (Lint): {e}", file=sys.stderr)
+
+    # -------------------------------------------------------------
+    # Step 2: Master Registry & Index Sync
+    # -------------------------------------------------------------
+    if not is_json:
+        print("\n>> Step 2/5: Master Registry & Index Sync...")
+
+    try:
+        reg_res = sync_registry(vault_dir, dry_run=dry_run)
+        step2_passed = reg_res.get("status") == "success"
+        steps_results.append({
+            "step": 2,
+            "name": "sync_registry",
+            "passed": step2_passed,
+            "papers_count": reg_res.get("papers_count", 0),
+            "concepts_count": reg_res.get("concepts_count", 0),
+            "comparisons_count": reg_res.get("comparisons_count", 0),
+            "updated_files": reg_res.get("updated_files", []),
+        })
+        if not step2_passed:
+            overall_passed = False
+            if not is_json:
+                print("[!] REGISTRY SYNC FAILED.")
+        else:
+            if not is_json:
+                print(f"[PASS] Synchronized {reg_res.get('papers_count', 0)} papers, {reg_res.get('concepts_count', 0)} concepts, {reg_res.get('comparisons_count', 0)} comparisons.")
+    except Exception as e:
+        overall_passed = False
+        steps_results.append({"step": 2, "name": "sync_registry", "passed": False, "error": str(e)})
+        if not is_json:
+            print(f"[!] Error in Step 2 (Sync Registry): {e}", file=sys.stderr)
+
+    # -------------------------------------------------------------
+    # Step 3: Wikilink Integrity & Orphan Check
+    # -------------------------------------------------------------
+    if not is_json:
+        print("\n>> Step 3/5: Wikilink Integrity & Orphan Check...")
+
+    try:
+        link_res = check_links(vault_dir)
+        step3_passed = link_res.is_clean
+        steps_results.append({
+            "step": 3,
+            "name": "check_links",
+            "passed": step3_passed,
+            "total_links": link_res.total_links,
+            "resolved_links": link_res.resolved_links,
+            "broken_links_count": len(link_res.broken_links),
+            "orphan_notes_count": len(link_res.orphan_notes),
+        })
+        if not step3_passed:
+            overall_passed = False
+            if not is_json:
+                print(f"[!] LINK CHECK FAILED: {len(link_res.broken_links)} broken links found.")
+                for b in link_res.broken_links[:5]:
+                    print(f"    - {b.source_file}:{b.line_number} -> [[{b.target}]]")
+        else:
+            if not is_json:
+                print(f"[PASS] Checked {link_res.total_links} links: {link_res.resolved_links} resolved, 0 broken.")
+    except Exception as e:
+        overall_passed = False
+        steps_results.append({"step": 3, "name": "check_links", "passed": False, "error": str(e)})
+        if not is_json:
+            print(f"[!] Error in Step 3 (Check Links): {e}", file=sys.stderr)
+
+    # -------------------------------------------------------------
+    # Step 4: Cross-Paper Knowledge Synthesizer
+    # -------------------------------------------------------------
+    if not is_json:
+        print("\n>> Step 4/5: Cross-Paper Knowledge Synthesizer...")
+
+    try:
+        synth_files = run_synthesis(vault_dir, dry_run=dry_run)
+        step4_passed = len(synth_files) > 0
+        steps_results.append({
+            "step": 4,
+            "name": "synthesize",
+            "passed": step4_passed,
+            "synthesized_count": len(synth_files),
+            "synthesized_files": [f.as_posix() for f in synth_files],
+        })
+        if not is_json:
+            print(f"[PASS] Synthesized {len(synth_files)} knowledge files.")
+    except Exception as e:
+        overall_passed = False
+        steps_results.append({"step": 4, "name": "synthesize", "passed": False, "error": str(e)})
+        if not is_json:
+            print(f"[!] Error in Step 4 (Synthesize): {e}", file=sys.stderr)
+
+    # -------------------------------------------------------------
+    # Step 5: Visual JSON Canvas Builder
+    # -------------------------------------------------------------
+    if not is_json:
+        print("\n>> Step 5/5: Visual JSON Canvas Builder...")
+
+    try:
+        canvas_path = generate_canvas_file(vault_dir, dry_run=dry_run)
+        step5_passed = canvas_path is not None
+        steps_results.append({
+            "step": 5,
+            "name": "generate_canvas",
+            "passed": step5_passed,
+            "canvas_file": str(canvas_path),
+        })
+        if not is_json:
+            print(f"[PASS] Generated 4-lane Canvas visual map at {canvas_path}.")
+    except Exception as e:
+        overall_passed = False
+        steps_results.append({"step": 5, "name": "generate_canvas", "passed": False, "error": str(e)})
+        if not is_json:
+            print(f"[!] Error in Step 5 (Generate Canvas): {e}", file=sys.stderr)
+
+    # -------------------------------------------------------------
+    # Summary & Return Code
+    # -------------------------------------------------------------
+    if is_json:
+        output_payload = {
+            "status": "success" if overall_passed else "failure",
+            "pipeline_passed": overall_passed,
+            "vault_dir": str(vault_dir),
+            "strict": strict,
+            "dry_run": dry_run,
+            "steps": steps_results,
+        }
+        print(json.dumps(output_payload, indent=2))
+    else:
+        print("\n" + "=" * 70)
+        if overall_passed:
+            print("[+] Full Self-Iteration Pipeline Completed Successfully! (0 errors, 0 warnings, 0 broken links)")
+        else:
+            print("[!] Pipeline Execution Failed. See step details above.")
+        print("=" * 70)
+
+    return 0 if overall_passed else 1
+
+
 def main(args: Optional[List[str]] = None) -> int:
     """Main CLI entry point."""
     parser = create_parser()
@@ -334,6 +540,8 @@ def main(args: Optional[List[str]] = None) -> int:
         return handle_generate_canvas(parsed_args)
     elif cmd == "ingest":
         return handle_ingest(parsed_args)
+    elif cmd == "run-pipeline":
+        return handle_run_pipeline(parsed_args)
     else:
         parser.print_help()
         return 1

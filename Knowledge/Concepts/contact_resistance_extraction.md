@@ -1,68 +1,62 @@
 ---
 type: concept
-project: 2d-semiconductors
-title: Contact Resistance Extraction in Emerging Transistors
+project: zotero_obsidian_kb
+title: "Contact Resistance Extraction in 2D Transistors"
+slug: contact_resistance_extraction
+canvas_visibility: visible
 status: active
 claim_strength: strong
+domain: semiconductor-devices
 primary_sources:
   - "[[Sources/Papers/2022_Cheng_FET-Benchmark]]"
-  - "[[Sources/Papers/2021_Liu_2D-Transistors]]"
-tags:
-  - type/concept
-  - topic/semiconductor
-  - method/extraction
-  - status/promoted
-aliases:
-  - TLM
-  - Contact Resistance Extraction
-  - 接触电阻提取
-created: 2026-03-29
-updated: 2026-04-18
+canonical_equation: 'R_{total} \cdot W = 2 R_c \cdot W + R_{sh} L_{ch}'
+updated: 2026-08-19T08:08:00Z
 ---
 
-# 🧬 Contact Resistance Extraction / 新兴晶体管接触电阻提取方法学
+# Contact Resistance Extraction in 2D Transistors
+> **中文概念**：二维材料晶体管接触电阻提取与去嵌套方法
+
+---
 
 ## Definition
-- **[EN]**: Contact resistance ($R_c$) represents the parasitic electrical resistance at the metal-semiconductor interface in field-effect transistors. In scaled sub-10-nm devices, $R_c$ often dominates total device resistance ($R_{tot}$), limiting drive current and switching speed.
-- **[CN]**: 接触电阻 ($R_c$) 代表场效应晶体管中金属-半导体界面处的寄生电阻。在亚 10 纳米器件中，$R_c$ 往往占据总电阻 ($R_{tot}$) 的主要部分，成为制约器件驱动电流与开关速度的核心瓶颈。
-
-```
-                  ┌─────────────────┐       ┌─────────────────┐
-                  │ Source (金属源极)│       │ Drain (金属漏极) │
-                  └────────┬────────┘       └────────┬────────┘
-                           │ (Rc)                    │ (Rc)
-     ══════════════════════╪═════════════════════════╪══════════════════════
-     Monolayer 2D Channel  │       Rch = Rsh * L/W   │
-     ═══════════════════════════════════════════════════════════════════════
-```
+- **[EN]**: Contact resistance ($R_c$) is the parasitic electrical resistance occurring at the metal-semiconductor interface of a 2D material transistor. Accurate de-embedding of $R_c$ is essential to determine whether a device is contact-limited or channel-transport-limited.
+- **[CN] 概念定义**：接触电阻 ($R_c$) 是指由于费米能级钉扎、肖特基势垒或隧穿间隙在金属电极与二维半导体接触界面产生的额外寄生电阻。精确提取并扣除 $R_c$ 是准确判断器件性能受限于接触界面还是受限于沟道本征输运的核心前提。
 
 ---
 
-## Mathematical Extraction Model
-
-The standard Transfer Length Method (TLM) models total resistance as a linear function of channel length ($L_{ch}$):
-
-$$R_{tot} = 2 R_c + \frac{R_{sh}}{W} L_{ch}$$
-
-- $R_{tot}$: Total measured two-probe resistance (总测量电阻)
-- $R_c$: Single-contact parasitic resistance (单端接触电阻)
-- $R_{sh}$: Sheet resistance of the channel (沟道方块电阻)
-- $W$: Channel width (沟道宽度)
-- $L_{ch}$: Channel length across test structures (不同测试结构沟道长度)
-
-By plotting $R_{tot}$ versus $L_{ch}$ across at least 4 distinct channel lengths, the y-intercept at $L_{ch} = 0$ yields $2 R_c$, with linear goodness-of-fit criterion $R^2 > 0.99$.
+## Mathematical Formulation
+- **[EN] Transfer Length Method (TLM) Model**:
+  $$R_{total} \cdot W = 2 R_c \cdot W + R_{sh} \cdot L_{ch}$$
+  Where:
+  - $R_{total}$ is the measured two-probe resistance / 实测两探针总电阻 $(\Omega)$
+  - $W$ is the channel width / 沟道宽度 $(\mu\text{m})$
+  - $R_c \cdot W$ is the width-normalized contact resistance / 归一化接触电阻 $(\Omega \cdot \mu\text{m})$
+  - $R_{sh}$ is the 2D sheet resistance / 二维沟道方块电阻 $(\Omega / \square)$
+  - $L_{ch}$ is the channel length / 沟道长度 $(\mu\text{m})$
+- **[CN] 模型推导**：通过测量一系列具有相同沟道宽度 $W$ 但不同沟道长度 $L_{ch}$ 的器件总电阻，线性拟合截距即为 $2 R_c \cdot W$，斜率即为方阻 $R_{sh}$。
 
 ---
 
-## Supporting Evidence
-- `EVD-2022_Cheng_FET-Benchmark-02`: Multi-channel TLM with $R^2 > 0.99$ linear fitting is the mandatory extraction standard to avoid two-probe underestimation.
-- `EVD-2021_Liu_2D-Transistors-03`: Identifies Fermi-level pinning and van der Waals gap states as primary physical sources of elevated $R_c$ in monolayer $\text{MoS}_2$ and $\text{WSe}_2$.
+## Theoretical Grounding
+- **[EN]**: In atom-thin 2D semiconductors like $\text{MoS}_2$ and $\text{WSe}_2$, the lack of out-of-plane dangling bonds and Fermi level pinning at the metal interface often creates a Schottky barrier. Proper extraction requires fixing gate overdrive ($V_{gs} - V_{th}$) and carrier density ($n_{2D}$).
+- **[CN] 理论基础**：在如 $\text{MoS}_2$、$\text{WSe}_2$ 等原子级范德华半导体中，缺乏表面悬挂键及界面能带弯曲极易形成肖特基势垒。因此提取 $R_c$ 时必须在固定的栅极过驱动电压 ($V_{gs} - V_{th}$) 与确定的载流子面密度 ($n_{2D}$) 下进行。
 
 ---
 
-## Related Knowledge & Papers
-- [[Sources/Papers/2022_Cheng_FET-Benchmark|Cheng et al. (Nature Electronics 2022)]]
-- [[Sources/Papers/2021_Liu_2D-Transistors|Liu et al. (Nature 2021)]]
+## Evidence & Empirical Support
+- **[EN]**: Standardized extraction protocol formulated in [[Sources/Papers/2022_Cheng_FET-Benchmark#Evidence|Cheng et al. (Nature Electronics 2022)]]. Modern 2D FET benchmarks require $R_c \cdot W < 100\ \Omega \cdot \mu\text{m}$ to approach Silicon FinFET competitive performance.
+- **[CN] 实证数据**：[[Sources/Papers/2022_Cheng_FET-Benchmark#Evidence|Cheng et al. (Nature Electronics 2022)]] 确立了该标准提取流程。国际半导体技术路线图 (IRDS) 指出，二维晶体管只有实现 $R_c \cdot W < 100\ \Omega \cdot \mu\text{m}$，才具备对标先进制程硅基 FinFET / GAAFET 的竞争力。
+
+---
+
+## Limitations & Boundary Conditions
+- **[EN]**: TLM requires uniform channel quality and identical contact interfaces across multiple devices with varying channel lengths.
+- **[CN] 边界条件与局限性**：TLM 依赖于不同沟道长度器件间具有高度一致的材料质量与接触界面均匀性；若单器件差异过大，需结合 Y 函数法或四探针法校准。
+
+---
+
+## Cross-References
+- [[Sources/Papers/2022_Cheng_FET-Benchmark]]
 - [[Knowledge/Concepts/emerging_fet_benchmarking]]
-- [[Knowledge/Concepts/saturation_current_density_benchmarking]]
+- [[Knowledge/Literature Overview]]
 - [[Knowledge/Method Taxonomy]]

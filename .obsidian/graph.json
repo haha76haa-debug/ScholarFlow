@@ -22,7 +22,14 @@
       }
     },
     {
-      "query": "path:Knowledge -path:Knowledge/Concepts",
+      "query": "path:Knowledge/Comparisons",
+      "color": {
+        "a": 1,
+        "rgb": 561586
+      }
+    },
+    {
+      "query": "path:Knowledge -path:Knowledge/Concepts -path:Knowledge/Comparisons",
       "color": {
         "a": 1,
         "rgb": 15965458
