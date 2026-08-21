@@ -1,0 +1,28 @@
+{
+  "main": {
+    "id": "clean_workspace",
+    "type": "split",
+    "children": [
+      {
+        "id": "tab_main",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "tab_hub",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "00-Hub.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "active": "tab_hub"
+}

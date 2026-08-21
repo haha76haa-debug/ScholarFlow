@@ -1,0 +1,85 @@
+schema_name: comparison_schema
+version: "1.0.0"
+target_path_pattern: "Knowledge/Comparisons/*.md"
+description: "Authoritative contract schema for 6-dimensional microelectronics comparison cards benchmarking 2D semiconductors against silicon technologies."
+
+required_frontmatter:
+  type:
+    type: string
+    allowed_values: ["comparison", "silicon-comparison"]
+    description: "Exact note type identifier for microelectronics comparison cards."
+  project:
+    type: string
+    description: "Project slug identifier (e.g. 2d-semiconductors or zotero_obsidian_kb)."
+  title:
+    type: string
+    description: "Canonical title of the comparison card."
+  status:
+    type: string
+    allowed_values: ["active", "draft", "deprecated", "archived"]
+    description: "Comparison card lifecycle status."
+  claim_strength:
+    type: string
+    allowed_values: ["speculative", "observed", "supported", "strong"]
+    description: "Epistemic validation level of comparison claims across literature."
+  primary_sources:
+    type: list
+    item_type: string
+    min_items: 1
+    description: "List of primary source paper notes in Sources/Papers/ establishing this comparison."
+  silicon_reference_nodes:
+    type: list
+    item_type: string
+    min_items: 1
+    description: "List of industrial silicon technologies and nodes benchmarked against (e.g. FinFET, GAAFET, CFET, A14)."
+  dimensions_covered:
+    type: list
+    item_type: integer
+    min_items: 6
+    description: "Array of engineering dimension indices [1, 2, 3, 4, 5, 6] covered in this card."
+  tags:
+    type: list
+    item_type: string
+    description: "Taxonomy tags (must include type/comparison and topic/silicon-analogy)."
+  updated:
+    type: string
+    pattern: "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(Z|[+-]\\d{2}:\\d{2}))?$"
+    description: "ISO 8601 UTC datetime of last card update."
+
+optional_frontmatter:
+  aliases:
+    type: list
+    item_type: string
+    description: "Alternative search aliases and Chinese titles."
+  created:
+    type: string
+    description: "Creation date (YYYY-MM-DD)."
+  silicon_technology:
+    type: string
+    description: "Primary silicon technology family reference."
+  linked_knowledge:
+    type: list
+    item_type: string
+    description: "Related knowledge syntheses or concept notes."
+  related_concepts:
+    type: list
+    item_type: string
+    description: "List of related atomic concept notes."
+
+required_sections:
+  - heading: "## Executive Overview & Silicon Analogy"
+    description: "High-level executive summary contrasting 2D semiconductor mechanisms with industrial silicon CMOS technology."
+  - heading: "## 1. Physical Scaling & Electrostatic Control"
+    description: "Dimension 1: Scale length lambda, SCE suppression, body thickness scaling, subthreshold swing SS, DIBL, and quantum confinement."
+  - heading: "## 2. Ohmic Contact & Metallization Engineering"
+    description: "Dimension 2: Contact resistance Rc, Schottky barrier height, Fermi-level pinning FLP, MIGS suppression, semi-metal hybridization vs silicon salicide."
+  - heading: "## 3. Gate Dielectric & EOT Scaling"
+    description: "Dimension 3: High-k dielectric ALD nucleation on dangling-bond-free surfaces, seed layers, native oxides, EOT scaling, and Dit interface traps."
+  - heading: "## 4. CMOS Integration & Thermal Budget"
+    description: "Dimension 4: Monolithic 3D BEOL logic stacking (<400°C) vs silicon FEOL dopant activation (>900°C), complementary n/p co-integration."
+  - heading: "## 5. IRDS Technology Roadmap Alignment"
+    description: "Dimension 5: Alignment with IEEE IRDS targets for sub-2nm, A14, A10, CFET nodes (Lg, CPP, Rc, Ion/W, supply voltage Vdd)."
+  - heading: "## 6. Electrical Benchmark & Compact Modeling Matrix"
+    description: "Dimension 6: Parameter comparison matrix and compact modeling differences (BSIM-CMG vs 2D Landauer-Büttiker ballistic transport)."
+  - heading: "## References & Evidence Anchors"
+    description: "Formal bibliography wikilinks and structured evidence anchors to source papers and concept notes."

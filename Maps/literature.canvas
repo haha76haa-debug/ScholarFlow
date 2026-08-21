@@ -1,0 +1,246 @@
+{
+  "nodes": [
+    {
+      "id": "node-he2016deep",
+      "type": "file",
+      "file": "Sources/Papers/he2016deep.md",
+      "x": 0,
+      "y": 0,
+      "width": 460,
+      "height": 340,
+      "color": "2"
+    },
+    {
+      "id": "node-hu2021lora",
+      "type": "file",
+      "file": "Sources/Papers/hu2021lora.md",
+      "x": 0,
+      "y": 420,
+      "width": 460,
+      "height": 340,
+      "color": "2"
+    },
+    {
+      "id": "node-vaswani2017attention",
+      "type": "file",
+      "file": "Sources/Papers/vaswani2017attention.md",
+      "x": 0,
+      "y": 840,
+      "width": 460,
+      "height": 340,
+      "color": "2"
+    },
+    {
+      "id": "group-foundational-literature",
+      "type": "group",
+      "label": "Foundational Literature",
+      "x": -40,
+      "y": -40,
+      "width": 540,
+      "height": 1680,
+      "color": "2"
+    },
+    {
+      "id": "node-parameter_efficient_fine_tuning",
+      "type": "file",
+      "file": "Knowledge/Concepts/parameter_efficient_fine_tuning.md",
+      "x": 680,
+      "y": 0,
+      "width": 460,
+      "height": 340,
+      "color": "6"
+    },
+    {
+      "id": "node-residual_connection",
+      "type": "file",
+      "file": "Knowledge/Concepts/residual_connection.md",
+      "x": 680,
+      "y": 420,
+      "width": 460,
+      "height": 340,
+      "color": "6"
+    },
+    {
+      "id": "node-self_attention",
+      "type": "file",
+      "file": "Knowledge/Concepts/self_attention.md",
+      "x": 680,
+      "y": 840,
+      "width": 460,
+      "height": 340,
+      "color": "6"
+    },
+    {
+      "id": "group-theoretical-concepts",
+      "type": "group",
+      "label": "Theoretical Concepts & Physics",
+      "x": 640,
+      "y": -40,
+      "width": 540,
+      "height": 1680,
+      "color": "6"
+    },
+    {
+      "id": "node-literature-overview",
+      "type": "file",
+      "file": "Knowledge/Literature Overview.md",
+      "x": 2040,
+      "y": 0,
+      "width": 460,
+      "height": 340,
+      "color": "5"
+    },
+    {
+      "id": "node-method-taxonomy",
+      "type": "file",
+      "file": "Knowledge/Method Taxonomy.md",
+      "x": 2040,
+      "y": 420,
+      "width": 460,
+      "height": 340,
+      "color": "5"
+    },
+    {
+      "id": "node-research-gaps",
+      "type": "file",
+      "file": "Knowledge/Research Gaps.md",
+      "x": 2040,
+      "y": 840,
+      "width": 460,
+      "height": 340,
+      "color": "1"
+    },
+    {
+      "id": "node-comparison-matrix",
+      "type": "file",
+      "file": "Writing/comparison-matrix.md",
+      "x": 2040,
+      "y": 1260,
+      "width": 460,
+      "height": 340,
+      "color": "5"
+    },
+    {
+      "id": "group-synthesis-and-writing",
+      "type": "group",
+      "label": "Synthesis & Writing",
+      "x": 2000,
+      "y": -40,
+      "width": 540,
+      "height": 1680,
+      "color": "5"
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge-node-hu2021lora-node-parameter_efficient_fine_tuning-0",
+      "fromNode": "node-hu2021lora",
+      "fromSide": "right",
+      "toNode": "node-parameter_efficient_fine_tuning",
+      "toSide": "left",
+      "label": "uses",
+      "color": "6",
+      "fromEnd": "none",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge-node-he2016deep-node-residual_connection-1",
+      "fromNode": "node-he2016deep",
+      "fromSide": "right",
+      "toNode": "node-residual_connection",
+      "toSide": "left",
+      "label": "uses",
+      "color": "6",
+      "fromEnd": "none",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge-node-vaswani2017attention-node-self_attention-2",
+      "fromNode": "node-vaswani2017attention",
+      "fromSide": "right",
+      "toNode": "node-self_attention",
+      "toSide": "left",
+      "label": "uses",
+      "color": "6",
+      "fromEnd": "none",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge-node-he2016deep-node-vaswani2017attention-3",
+      "fromNode": "node-he2016deep",
+      "fromSide": "bottom",
+      "toNode": "node-vaswani2017attention",
+      "toSide": "top",
+      "label": "precedes",
+      "color": "4",
+      "fromEnd": "none",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge-node-hu2021lora-node-vaswani2017attention-4",
+      "fromNode": "node-hu2021lora",
+      "fromSide": "bottom",
+      "toNode": "node-vaswani2017attention",
+      "toSide": "top",
+      "label": "extends",
+      "color": "4",
+      "fromEnd": "none",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge-node-vaswani2017attention-node-he2016deep-5",
+      "fromNode": "node-vaswani2017attention",
+      "fromSide": "bottom",
+      "toNode": "node-he2016deep",
+      "toSide": "top",
+      "label": "extends",
+      "color": "4",
+      "fromEnd": "none",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge-node-vaswani2017attention-node-hu2021lora-6",
+      "fromNode": "node-vaswani2017attention",
+      "fromSide": "bottom",
+      "toNode": "node-hu2021lora",
+      "toSide": "top",
+      "label": "precedes",
+      "color": "4",
+      "fromEnd": "none",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge-node-parameter_efficient_fine_tuning-node-literature-overview-7",
+      "fromNode": "node-parameter_efficient_fine_tuning",
+      "fromSide": "right",
+      "toNode": "node-literature-overview",
+      "toSide": "left",
+      "label": "summarizes",
+      "color": "5",
+      "fromEnd": "none",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge-node-residual_connection-node-method-taxonomy-8",
+      "fromNode": "node-residual_connection",
+      "fromSide": "right",
+      "toNode": "node-method-taxonomy",
+      "toSide": "left",
+      "label": "uses",
+      "color": "3",
+      "fromEnd": "none",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge-node-self_attention-node-research-gaps-9",
+      "fromNode": "node-self_attention",
+      "fromSide": "right",
+      "toNode": "node-research-gaps",
+      "toSide": "left",
+      "label": "addresses",
+      "color": "1",
+      "fromEnd": "none",
+      "toEnd": "arrow"
+    }
+  ]
+}

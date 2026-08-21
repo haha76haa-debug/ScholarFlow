@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "scholarflow"
+version = "0.1.0"
+description = "ScholarFlow: Autonomous, Self-Iterating Academic Knowledge Base and Research Engine"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+authors = [
+    {name = "ScholarFlow Contributors"}
+]
+keywords = ["obsidian", "zotero", "llm-wiki", "knowledge-graph", "academic-research"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+]
+dependencies = [
+    "pyyaml>=6.0",
+]
+
+[project.scripts]
+kb-tools = "kb_tools.cli:main"
+scholarflow = "kb_tools.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-v"
