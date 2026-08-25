@@ -58,9 +58,10 @@ linked_knowledge:
   - "Knowledge/Research Gaps"
   - "Knowledge/Concepts/emerging_fet_benchmarking"
   - "Knowledge/Concepts/contact_resistance_extraction"
+  - "Knowledge/Concepts/channel_mobility_and_dibl"
   - "Knowledge/Comparisons/2d_contact_vdW_vs_silicon_silicide"
   - "Knowledge/Comparisons/2d_electrostatic_scaling_vs_silicon_gaafet"
-updated: 2026-08-21T08:08:00Z
+updated: 2026-08-25T14:03:00Z
 ---
 
 # How to report and benchmark emerging field-effect transistors
@@ -183,6 +184,7 @@ Claim strength: strong
 - [[Knowledge/Research Gaps]]
 - [[Knowledge/Concepts/emerging_fet_benchmarking]]
 - [[Knowledge/Concepts/contact_resistance_extraction]]
+- [[Knowledge/Concepts/channel_mobility_and_dibl]]
 - [[Knowledge/Comparisons/2d_contact_vdW_vs_silicon_silicide]]
 - [[Knowledge/Comparisons/2d_electrostatic_scaling_vs_silicon_gaafet]]
 

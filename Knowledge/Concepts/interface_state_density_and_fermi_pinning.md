@@ -8,7 +8,7 @@ primary_sources:
 - '[[Sources/Papers/2021_Liu_2D-Transistors]]'
 tags:
 - '#type/concept'
-- '#origin/reading-qa'
+- '#topic/fermi-level-pinning'
 - '#topic/semiconductor'
 - '#topic/2d-materials'
 - '#tech/contact-engineering'
@@ -42,7 +42,7 @@ related_concepts:
 
 ---
 
-## 1. 问题背景与文献原句 (Originating Context & Excerpt)
+## Definition — 问题背景与文献原句 (Originating Context & Excerpt)
 - **文献出处**：[[Sources/Papers/2021_Liu_2D-Transistors]]
 - **精读疑问**：为什么传统蒸镀金属在二维半导体表面会形成极高的接触电阻？金属诱导间隙态（MIGS）是如何导致费米能级钉扎的？
 - **文献原句摘录**：

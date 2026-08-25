@@ -43,7 +43,7 @@ related_concepts:
 
 ---
 
-## 1. 问题背景与文献原句 (Originating Context & Excerpt)
+## Definition — 问题背景与文献原句 (Originating Context & Excerpt)
 
 **[EN]** In both Liu *et al.* (2021) and Cheng *et al.* (2022), channel mobility and DIBL appear as two of the most frequently cited figures-of-merit when benchmarking 2D-material transistors against Si CMOS. Yet their physical roles differ fundamentally: **mobility** characterises the intrinsic scattering landscape of the channel material, while **DIBL** characterises the quality of electrostatic gate control as device dimensions shrink.
 

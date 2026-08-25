@@ -8,7 +8,7 @@ primary_sources:
 - '[[Sources/Papers/2022_Cheng_FET-Benchmark]]'
 tags:
 - '#type/concept'
-- '#origin/reading-qa'
+- '#topic/1d-materials'
 - '#topic/semiconductor'
 - '#topic/carbon-nanotubes'
 - '#tech/contact-engineering'
@@ -59,7 +59,7 @@ related_concepts:
 
 ---
 
-## 1. 问题背景与文献原句 (Originating Context & Excerpt)
+## Definition — 问题背景与文献原句 (Originating Context & Excerpt)
 - **文献出处**：[[Sources/Papers/2022_Cheng_FET-Benchmark]] (Nature Electronics 2022, 彭练矛院士/张志勇教授/Curt Richter/Eric Pop 等合著)
 - **精读疑问**：碳纳米管（CNT）是如何从材料筛选、高密度定向排列到源漏接触一步步制作成场效应晶体管（FET）的？其极性调控微观机制与传统硅基掺杂退火有何本质异同？
 - **文献原句摘录**：
@@ -68,7 +68,7 @@ related_concepts:
 
 ---
 
-## 2. 完整制造工艺全流程解析 (Full 5-Step Fabrication Process)
+## Mechanism — 完整制造工艺全流程解析 (Full 5-Step Fabrication Process)
 
 将单壁碳纳米管（SWCNTs）制造为高性能数字逻辑晶体管的完整 5 步流程如下：
 
