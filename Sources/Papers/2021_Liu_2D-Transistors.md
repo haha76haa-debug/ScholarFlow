@@ -66,6 +66,9 @@ updated: 2026-08-21T08:48:00Z
 - **[EN]**: Atomically thin two-dimensional (2D) semiconductors offer the ultimate electrostatic scaling limit ($\lambda \propto \sqrt{t_b t_{ox}}$ with $t_b < 1\text{ nm}$) to overcome short-channel effects in sub-10-nm transistors. However, extrinsic carrier mobility is widely misinterpreted as the sole figure of merit; **saturation on-current density ($I_{on}/W$) in the short-channel ballistic limit** must serve as the true benchmark for logic computing.
 - **[CN] 核心主张**：原子级超薄的二维（2D）半导体提供了终极的静电栅控缩放极限（特征长度 $\lambda \propto \sqrt{t_b t_{ox}}$，沟道厚度 $t_b < 1\text{ nm}$），能够彻底抑制亚 10 纳米晶体管中的短沟道效应。然而，外在载流子迁移率在学术界长期被误解与滥用，**短沟道弹道极限下的开态饱和电流密度 ($I_{on}/W$)** 才是衡量 2D 逻辑晶体管性能的根本基准。
 
+> [!quote] 原文引用 (p. 43)
+> "Widely used device parameters (such as carrier mobility and contact resistance) are often misestimated or misinterpreted. In short-channel logic transistors, saturation drive current density $I_{sat}/W$ governed by ballistic carrier velocity is the decisive metric."
+
 ---
 
 ## Research question
@@ -77,12 +80,25 @@ updated: 2026-08-21T08:48:00Z
 ## Method
 - **[EN] Electrostatic Scaling & Comprehensive Device Architecture Framework**:
   1. **Electrostatic Characteristic Length ($\lambda$)**: Derived the scaling boundary $\lambda = \sqrt{\frac{\varepsilon_b}{\varepsilon_{ox}} t_b t_{ox} + \frac{\varepsilon_b}{2 \varepsilon_{sub}} t_b t_{sub}}$, demonstrating that shrinking body thickness $t_b < 1\text{ nm}$ without surface dangling bonds enables physical gate lengths down to sub-5-nm.
+
+> [!quote] 原文引用 — Electrostatic Scaling (p. 43–44)
+> "$\lambda$ is the transistor characteristic length that ultimately dictates the transistor size... In particular, 2D semiconductors feature a dangling-bond-free surface and little mobility variation with decreasing $t_b$. Retaining high electronic performance at the ultimate $t_b$ limit (<1 nm) enables transistors with sub-10-nm gate length while maintaining sufficiently small subthreshold swing and low leakage."
+
   2. **Short-Channel Ballistic Carrier Injection**: Modeled top-of-the-barrier carrier velocity ($v_{inj}$) and demonstrated that drive current is dictated by quantum capacitance and injection velocity rather than long-channel drift mobility.
+
+> [!quote] 原文引用 — Ballistic Transport (p. 45)
+> "In the ballistic transport limit, the drive current is $I_{on} = Wq n_{2D} v_{inj}$, where the carrier sheet density $n_{2D}$ is set by the gate voltage overdrive $(V_{GS} - V_{th})$ and the quantum capacitance $C_Q$, and $v_{inj}$ is the injection velocity at the top of the source–channel potential barrier."
+
   3. **Interface & Contact Engineering**: Evaluated van der Waals (vdW) gap contacts, semimetal (Bi/Sb) zero-Schottky-barrier contacts, and 2D/high-$\kappa$ dielectric integration strategies.
+
+> [!quote] 原文引用 — Semi-Metal Contacts (p. 46–47)
+> "The use of semi-metals such as bismuth (Bi) can effectively eliminate the Schottky barrier at the metal–semiconductor junction by hybridizing the semi-metal electronic states with the semiconductor conduction band, thereby achieving Ohmic contacts with contact resistance approaching the quantum limit."
+
 - **[CN] 规范化方法与器件物理体系**：
   1. **静电特征缩放长度 ($\lambda$) 物理推导**：推导了 $\lambda = \sqrt{\frac{\varepsilon_b}{\varepsilon_{ox}} t_b t_{ox}}$，证明无表面悬挂键的单层原子厚度 ($t_b < 1\text{ nm}$) 能够将晶体管物理栅长推进至亚 5 纳米乃至 1 纳米极限。
   2. **短沟道弹道注入模型**：建立势垒顶端载流子注入速度 ($v_{inj}$) 模型，证明短沟道下开态电流由注入速度与量子电容决定，而非长沟道漂移迁移率。
   3. **界面与接触工程路线**：系统评述范德华 (vdW) 钝化接触、半金属 (Bi/Sb) 肖特基势垒消除技术及二维超薄 High-$\kappa$ 介质外延方案。
+
 
 ---
 
@@ -125,12 +141,24 @@ Claim strength: strong
 - **Theoretical Authority / 权威性与物理洞见**:
   - Published as an authoritative review in *Nature* (2021) by leading pioneering teams from UCLA and Hunan University.
   - 由国际著名纳米电子学先驱段镶锋教授团队领衔发表于 *Nature*，深刻重塑了二维电子学领域的基准评价体系。
+
+> [!quote] 原文引用 — 2D Scaling Advantage (p. 43)
+> "Two-dimensional (2D) materials are promising because they offer the ultimate electrostatic scaling limit: an atomically thin body thickness ($t_b < 1$ nm) without surface dangling bonds, enabling transistors with sub-10-nm gate length while maintaining sufficiently small subthreshold swing and low leakage."
+
 - **Comprehensive Architecture Scope / 架构全景覆盖**:
   - Systematically dissects the 4 critical pillars: Channel material, Contact interfaces, Dielectric oxides, and Substrate integration.
   - 全面解构了二维器件走向芯片级的四大支柱：沟道材料、接触电极、栅介质与衬底外延。
+
+> [!quote] 原文引用 — Four Integration Challenges (p. 43)
+> "Significant advances are still needed in four critical areas: (1) channel materials with high carrier mobility and bandgap, (2) low-resistance contacts, (3) high-quality gate dielectrics with low equivalent oxide thickness (EOT), and (4) wafer-scale integration with substrates."
+
 - **Constructive Roadmapping / 前瞻性技术路线图**:
   - Outlines actionable experimental targets for 2D devices to compete with sub-2nm GAAFET technology nodes.
   - 明确给出了二维晶体管对标亚 2 纳米 GAAFET 制程节点的关键物理指标量化目标。
+
+> [!quote] 原文引用 — IRDS Target (p. 45)
+> "For 2D transistors to become competitive with silicon GAAFET at the sub-2-nm node, devices must achieve $I_{on}/W > 1.0$ mA/μm at $V_{dd} = 0.7$ V with contact resistance $R_c \cdot W < 100\ \Omega\cdot\mu\text{m}$ and gate dielectric EOT < 0.6 nm."
+
 
 ---
 
@@ -138,9 +166,17 @@ Claim strength: strong
 - **P-Type FET Performance Gap / P 型器件性能滞后**:
   - High-performance n-type $\text{MoS}_2$ is extensively developed, but complementary p-type FETs ($\text{WSe}_2$, black phosphorus) still face higher contact barriers and doping instability.
   - 互补逻辑所必需的高性能 P 型器件（如 $\text{WSe}_2$）在接触电阻与掺杂稳定性上显著落后于 N 型 $\text{MoS}_2$。
+
+> [!quote] 原文引用 — P-type Challenge (p. 47)
+> "Although n-type MoS₂ FETs with high performance have been extensively developed, the demonstration of high-performance p-type FETs in 2D materials remains challenging. WSe₂ and black phosphorus p-type devices suffer from higher contact resistance and instability of p-type doping under ambient conditions."
+
 - **Lab-to-Fab Scaling Bottlenecks / 工业制造量产鸿沟**:
   - Wafer-scale (12-inch) single-crystal monolayer synthesis with ultra-low defect density remains challenging.
   - 12 英寸晶圆级单晶单层生长、无损伤介质沉积及热耗散管理仍存在工程工艺挑战。
+
+> [!quote] 原文引用 — Wafer-Scale Growth (p. 48)
+> "Scaling up single-crystal monolayer growth to wafer scale (300 mm) with ultra-low defect density while maintaining the same crystal quality as mechanically exfoliated flakes remains one of the most critical and unsolved challenges for the practical application of 2D materials in integrated circuits."
+
 
 ---
 

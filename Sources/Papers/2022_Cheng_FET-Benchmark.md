@@ -74,6 +74,9 @@ updated: 2026-08-29T08:00:00Z
 - **[EN]**: A standardized parameter reporting checklist and uniform benchmarking methodology are essential to eliminate pervasive ambiguities, inconsistent parameter extractions (e.g., contact resistance, mobility, subthreshold swing), and overclaimed performance in emerging 2D semiconductor field-effect transistors.
 - **[CN] 核心主张**：建立标准化的器件参数报告清单和统一的基准评估方法论，是消除新兴二维半导体场效应晶体管领域中普遍存在的参数提取歧义（如接触电阻、载流子迁移率、亚阈值摆幅）及虚高宣传性能的关键。
 
+> [!quote] 原文引用 (p. 416)
+> "Inconsistent reporting and extraction methods across laboratories have led to confusing benchmarks and misleading comparisons with mainstream silicon technology. Here we provide guidelines and a checklist for reporting and benchmarking FET device parameters, with the aim of facilitating a fair comparison between different devices."
+
 ---
 
 ## Research question
@@ -85,12 +88,25 @@ updated: 2026-08-29T08:00:00Z
 ## Method
 - **[EN] Standardized Reporting & Benchmark Protocols**:
   1. **Reporting Checklist**: Defined a mandatory set of device geometry ($L_{ch}, W$), measurement conditions, contact configurations, dielectric equivalent oxide thickness ($\text{EOT}$), gate leakage, and temperature.
+
+> [!quote] 原文引用 — Reporting Checklist (p. 418)
+> "To ensure reproducibility, authors should report the device geometry (channel length $L_{ch}$ and width $W$), contact metal stack, equivalent oxide thickness (EOT), gate leakage current $I_g$, temperature, and measurement sweep rate, as well as whether the reported mobility has been corrected for contact resistance."
+
   2. **Extraction Rigor**: Enforced Transfer Length Method (TLM) or Y-function under specified gate overdrive for contact resistance $R_c$; distinguished field-effect mobility $\mu_{FE}$ from intrinsic effective mobility $\mu_{eff}$; reported both $SS_{min}$ and decade-averaged $SS_{60}$.
+
+> [!quote] 原文引用 — TLM R² Criterion (p. 419)
+> "We recommend using at least four different channel lengths and requiring a coefficient of determination $R^2 > 0.99$ for the linear fit to ensure reliable extraction of contact resistance. Two-probe measurements systematically underestimate contact resistance and should not be used as the sole extraction method."
+
   3. **Canonical Benchmark Envelopes**: Established standardized 2D scatter plots ($I_{on}$ vs. $I_{off}$, $R_c \cdot W$ vs. carrier density $n_{2D}$) across globally published literature.
+
+> [!quote] 原文引用 — Benchmark Envelopes (p. 420)
+> "Standardized $I_{on}$–$I_{off}$ scatter plots across all reported 2D FET devices provide a canonical benchmark envelope, enabling direct comparison of novel device reports against the state-of-the-art performance space and IRDS technology targets."
+
 - **[CN] 规范化方法体系**：
   1. **器件报告清单 (Checklist)**：制定必须详尽披露的参数规范，包括沟道长宽 ($L_{ch}, W$)、接触金属叠层、介质等效氧化层厚度 ($\text{EOT}$)、栅极漏电流及测量扫描速率。
   2. **严谨提取规范**：规范使用传输线模型 (TLM) 或 Y 函数在固定栅过驱动电压下提取接触电阻 $R_c$；明确区分外在场效应迁移率 $\mu_{FE}$ 与扣除接触电阻后的本征有效迁移率 $\mu_{eff}$；同时报告最小亚阈值摆幅 $SS_{min}$ 与跨越数个量级的平均摆幅。
   3. **标准基准散点图**：构建统一的性能包络对比图（如 $I_{on}$-$I_{off}$ 曲线、接触电阻随二维载流子浓度 $n_{2D}$ 演化曲线）。
+
 
 ---
 
@@ -133,12 +149,24 @@ Claim strength: strong
 - **Theoretical & Academic Consensus / 理论高度与国际共识**:
   - Co-authored by leading global institutions (NIST, Duke, Stanford, IMEC, RWTH Aachen, PKU).
   - 由全球顶级半导体机构与高校顶尖学者联合署名，具备极高的行业公信力。
+
+> [!quote] 原文引用 — Community Consensus (p. 416)
+> "This Perspective is co-authored by researchers from major institutions and provides community-wide guidelines that represent a consensus on the need to standardize the reporting and benchmarking of emerging FET technologies."
+
 - **Empirical Rigor / 实证严密性**:
   - Systematically surveys decades of monolayer $\text{MoS}_2$ transistors to expose common extraction pitfalls.
   - 系统调研了全球发表的单层 $\text{MoS}_2$ 晶体管数据，清晰指出了业界常见的测量误区与伪峰值。
+
+> [!quote] 原文引用 — Mobility Overestimation Survey (p. 417)
+> "A survey of published MoS₂ FET data reveals that field-effect mobility values extracted without proper subtraction of contact resistance are systematically overestimated, often by more than an order of magnitude, leading to an artificially optimistic picture of 2D material performance."
+
 - **Actionable Usability / 实用与指导价值**:
   - Provides plug-and-play tables, checklists, and figure styles for experimentalists.
   - 为实验人员提供了可直接套用的标准化表格、自查清单与对比作图模版。
+
+> [!quote] 原文引用 — Checklist Value (p. 418)
+> "The checklist provided here is intended to serve as a practical tool for authors, reviewers, and editors to assess whether the key parameters necessary for a fair comparison have been reported."
+
 
 ---
 
@@ -146,9 +174,17 @@ Claim strength: strong
 - **DC-Centric Focus / 局限于直流特性**:
   - Primarily addresses DC transfer and output curves; high-frequency RF performance, device-to-device variability, and bias temperature instability (BTI) are briefly discussed.
   - 核心内容集中在直流转移与输出特性，对射频高频性能、器件间均一性偏差及长期偏压温度不稳定性 (BTI) 的讨论相对有限。
+
+> [!quote] 原文引用 — DC Scope Limitation (p. 421)
+> "Our proposed benchmarking framework primarily addresses DC electrical characterization. High-frequency performance metrics such as $f_T$ and $f_{max}$, as well as device-to-device variability and reliability metrics including bias temperature instability (BTI), require additional characterization protocols beyond the scope of this work."
+
 - **Circuit-Level Gap / 缺乏芯片级考量**:
   - Does not extend to parasitic interconnect capacitance in multi-gate standard logic cells.
   - 尚未直接延伸到标准逻辑单元库中的互连寄生电容与复杂时序延迟建模。
+
+> [!quote] 原文引用 — Circuit-Level Gap (p. 421)
+> "Extension of these guidelines to multi-stage logic circuit benchmarking, including parasitic capacitances of interconnects, fan-out loading, and propagation delay, represents an important future direction for the community."
+
 
 ---
 
