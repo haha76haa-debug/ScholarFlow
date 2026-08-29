@@ -94,6 +94,19 @@ zotero_obsidian_kb/
 3. **Link Integrity**: Execute `python -m kb_tools check_links --repair` to detect and repair broken or dangling wikilinks.
 4. **Visual Topology Regeneration**: Execute `python -m kb_tools generate_canvas` to update `Maps/literature.canvas`.
 
+### Phase 4: Multi-Modal Visual & Zero-Barrier Ingestion Protocol
+1. **Triad Multi-Modal Standard**: Every paper note and concept note must include (a) a Hero Visual (3D cross-section or energy band diagram), (b) a layer-by-layer parameter breakdown, and (c) Mermaid vector flowcharts for processes. Never use ASCII art.
+2. **Zero-Barrier Q&A Ingestion**: When user poses a free-form question about a paper, immediately provide Feynman-level explanation, auto-draft atomic concept note, request confirmation, then ingest upon approval ("存入").
+3. **Paper Evidence Citation Standard（原文引用锚定规范）**: Every key claim, quantitative conclusion, or method description in paper notes (`Sources/Papers/*.md`) MUST be followed by the corresponding verbatim original text in an Obsidian callout block:
+   ```
+   > [!quote] 原文引用 (p. XX / Section X.X)
+   > "...exact original sentence from the paper..."
+   ```
+   - Citation block placed **after** the Chinese/English summary, **before** the next bullet
+   - Page number or section reference mandatory for traceability
+   - Apply to concept notes (`Knowledge/Concepts/*.md`) whenever citing specific paper evidence
+   - Backfill existing notes incrementally when content is revisited, not all at once
+
 ---
 
 ## 3. CLI Maintenance Tool Suite Command Signatures
