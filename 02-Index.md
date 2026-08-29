@@ -10,7 +10,7 @@ updated: 2026-08-20T13:10:00Z
 > [!abstract]+ 📊 知识库实时全景看板 (Knowledge Base Dashboard)
 > | 📚 核心收录文献 | 🧬 提炼原子概念 | 💎 硅基对照卡片 | 🌳 方法学分类体系 | 🎯 开放研究空白 | 🗺️ 交互知识图谱 |
 > | :---: | :---: | :---: | :---: | :---: | :---: |
-> | **2 篇** | **7 个** | **2 篇** | **3 大类** | **2 项** | 👉 [[Maps/literature.canvas|打开交互画布]] |
+> | **2 篇** | **8 个** | **2 篇** | **3 大类** | **2 项** | 👉 [[Maps/literature.canvas|打开交互画布]] |
 >
 > 🧭 **快捷导航**：[[00-Hub|项目总览 (Hub)]] ｜ [[01-Plan|研究规划 (Plan)]] ｜ [[Writing/comparison-matrix|跨文献横向对比矩阵]] ｜ [[_system/registry|底层元数据注册表]]
 
@@ -93,6 +93,12 @@ updated: 2026-08-20T13:10:00Z
 > - 🎯 **机制定义与物理洞见**：在超短沟道纳米晶体管中，载流子输运从传统扩散漂移机制转变为准弹道注入机制。因此，低场漂移迁移率不再决定逻辑门电路的翻转延迟；在固定供电电压 ($V_{dd}$) 和规定关态漏电流 ($I_{off}$) 条件下的**单位宽度开态饱和电流密度 ($I_{on}/W$)**，才是评价逻辑晶体管性能的最核心客观基准。
 > - 状态：`🔬 Active`
 
+> [!tip]+ 🧬 [[Knowledge/Concepts/transconductance_gm_in_fet|Transconductance (gm) in Field-Effect Transistors]]
+> > 💡 **中文概念**：*跨导——场效应晶体管的栅极电流控制灵敏度*
+> - 🏷️ **概念属性**：`concept` ｜ 📚 **理论基石来源**：[[Sources/Papers/2022_Cheng_FET-Benchmark]], [[Sources/Papers/2021_Liu_2D-Transistors]]
+> - 🎯 **机制定义与物理洞见**：把 FET 想象成"电子水龙头"：漏极电流 = 水流量，栅极电压 = 旋钮角度，跨导 = 旋钮灵敏度（转动一点，水流变化多少）。
+> - 状态：`🔬 Active`
+
 > [!tip]+ 🧬 [[Knowledge/Concepts/two_dimensional_transistor_scaling|Two-Dimensional Transistor Scaling and Natural Length]]
 > > 💡 **中文概念**：*二维晶体管静电缩放与特征自然长度 $\lambda$*
 > - 🏷️ **概念属性**：`concept` ｜ 📚 **理论基石来源**：[[Sources/Papers/2021_Liu_2D-Transistors]]
@@ -113,6 +119,7 @@ updated: 2026-08-20T13:10:00Z
 | `🔬 Active` | [[Knowledge/Concepts/emerging_fet_benchmarking|Emerging FET Benchmarking Guidelines]] | **Emerging FET Benchmarking Guidelines** | `concept` | `2022_Cheng_FET-Benchmark` | - |
 | `🔬 Active` | [[Knowledge/Concepts/interface_state_density_and_fermi_pinning|Interface State Density & Fermi-Level Pinning in 2D Transistors]] | **Interface State Density & Fermi-Level Pinning in 2D Transistors** | `concept` | `2021_Liu_2D-Transistors` | `#type/concept` `#topic/fermi-level-pinning` `#topic/semiconductor` |
 | `🔬 Active` | [[Knowledge/Concepts/saturation_current_density_benchmarking|Saturation Current Density Benchmarking in Logic Transistors]] | **Saturation Current Density Benchmarking in Logic Transistors** | `concept` | `2021_Liu_2D-Transistors` | - |
+| `🔬 Active` | [[Knowledge/Concepts/transconductance_gm_in_fet|Transconductance (gm) in Field-Effect Transistors]] | **Transconductance (gm) in Field-Effect Transistors** | `concept` | `2022_Cheng_FET-Benchmark`, `2021_Liu_2D-Transistors` | `#type/concept` `#topic/semiconductor` `#topic/2d-materials` |
 | `🔬 Active` | [[Knowledge/Concepts/two_dimensional_transistor_scaling|Two-Dimensional Transistor Scaling and Natural Length]] | **Two-Dimensional Transistor Scaling and Natural Length** | `concept` | `2021_Liu_2D-Transistors` | - |
 
 <!-- END AUTO REGISTRY: CONCEPTS -->
