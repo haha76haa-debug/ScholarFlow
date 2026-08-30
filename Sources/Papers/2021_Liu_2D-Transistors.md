@@ -47,13 +47,14 @@ linked_knowledge:
   - "Knowledge/Literature Overview"
   - "Knowledge/Method Taxonomy"
   - "Knowledge/Research Gaps"
+  - "Knowledge/Concepts/fet_mosfet_fundamentals"
   - "Knowledge/Concepts/two_dimensional_transistor_scaling"
   - "Knowledge/Concepts/saturation_current_density_benchmarking"
   - "Knowledge/Concepts/emerging_fet_benchmarking"
   - "Knowledge/Concepts/contact_resistance_extraction"
   - "Knowledge/Comparisons/2d_electrostatic_scaling_vs_silicon_gaafet"
   - "Knowledge/Comparisons/2d_contact_vdW_vs_silicon_silicide"
-updated: 2026-08-21T08:48:00Z
+updated: 2026-08-30T10:55:00Z
 ---
 
 

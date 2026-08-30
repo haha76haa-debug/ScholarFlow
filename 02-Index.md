@@ -10,7 +10,7 @@ updated: 2026-08-20T13:10:00Z
 > [!abstract]+ 📊 知识库实时全景看板 (Knowledge Base Dashboard)
 > | 📚 核心收录文献 | 🧬 提炼原子概念 | 💎 硅基对照卡片 | 🌳 方法学分类体系 | 🎯 开放研究空白 | 🗺️ 交互知识图谱 |
 > | :---: | :---: | :---: | :---: | :---: | :---: |
-> | **2 篇** | **8 个** | **2 篇** | **3 大类** | **2 项** | 👉 [[Maps/literature.canvas|打开交互画布]] |
+> | **2 篇** | **9 个** | **2 篇** | **3 大类** | **2 项** | 👉 [[Maps/literature.canvas|打开交互画布]] |
 >
 > 🧭 **快捷导航**：[[00-Hub|项目总览 (Hub)]] ｜ [[01-Plan|研究规划 (Plan)]] ｜ [[Writing/comparison-matrix|跨文献横向对比矩阵]] ｜ [[_system/registry|底层元数据注册表]]
 
@@ -81,6 +81,12 @@ updated: 2026-08-20T13:10:00Z
 > - 🎯 **机制定义与物理洞见**：面向新兴低维场效应晶体管（如单层 $\text{MoS}_2$、碳纳米管、二维半导体）的标准化基准测试与参数提取规范。旨在建立统一的器件参数提取与对比规则，消除学术界选择性报道的问题，实现与硅基先进 CMOS 节点的严谨客观对标。
 > - 状态：`🔬 Active`
 
+> [!tip]+ 🧬 [[Knowledge/Concepts/fet_mosfet_fundamentals|FET and MOSFET Fundamentals]]
+> > 💡 **中文概念**：*场效应晶体管（FET）与 MOSFET 基础知识体系——从器件结构、工作原理到二维半导体的演进*
+> - 🏷️ **概念属性**：`concept` ｜ 📚 **理论基石来源**：[[Sources/Papers/2021_Liu_2D-Transistors]], [[Sources/Papers/2022_Cheng_FET-Benchmark]]
+> - 🎯 **机制定义与物理洞见**：
+> - 状态：`🔬 Active`
+
 > [!tip]+ 🧬 [[Knowledge/Concepts/interface_state_density_and_fermi_pinning|Interface State Density & Fermi-Level Pinning in 2D Transistors]]
 > > 💡 **中文概念**：*二维晶体管界面态密度与费米能级钉扎机理*
 > - 🏷️ **概念属性**：`concept` ｜ 📚 **理论基石来源**：[[Sources/Papers/2021_Liu_2D-Transistors]]
@@ -117,6 +123,7 @@ updated: 2026-08-20T13:10:00Z
 | `🔬 Active` | [[Knowledge/Concepts/channel_mobility_and_dibl|Channel Carrier Mobility and Drain-Induced Barrier Lowering (DIBL)]] | **Channel Carrier Mobility and Drain-Induced Barrier Lowering (DIBL)** | `concept` | `2021_Liu_2D-Transistors`, `2022_Cheng_FET-Benchmark` | `#type/concept` `#topic/semiconductor` `#topic/2d-materials` |
 | `🔬 Active` | [[Knowledge/Concepts/contact_resistance_extraction|Contact Resistance Extraction in 2D Transistors]] | **Contact Resistance Extraction in 2D Transistors** | `concept` | `2022_Cheng_FET-Benchmark` | - |
 | `🔬 Active` | [[Knowledge/Concepts/emerging_fet_benchmarking|Emerging FET Benchmarking Guidelines]] | **Emerging FET Benchmarking Guidelines** | `concept` | `2022_Cheng_FET-Benchmark` | - |
+| `🔬 Active` | [[Knowledge/Concepts/fet_mosfet_fundamentals|FET and MOSFET Fundamentals]] | **FET and MOSFET Fundamentals** | `concept` | `2021_Liu_2D-Transistors`, `2022_Cheng_FET-Benchmark` | `#type/concept` `#topic/semiconductor` `#topic/device-physics` |
 | `🔬 Active` | [[Knowledge/Concepts/interface_state_density_and_fermi_pinning|Interface State Density & Fermi-Level Pinning in 2D Transistors]] | **Interface State Density & Fermi-Level Pinning in 2D Transistors** | `concept` | `2021_Liu_2D-Transistors` | `#type/concept` `#topic/fermi-level-pinning` `#topic/semiconductor` |
 | `🔬 Active` | [[Knowledge/Concepts/saturation_current_density_benchmarking|Saturation Current Density Benchmarking in Logic Transistors]] | **Saturation Current Density Benchmarking in Logic Transistors** | `concept` | `2021_Liu_2D-Transistors` | - |
 | `🔬 Active` | [[Knowledge/Concepts/transconductance_gm_in_fet|Transconductance (gm) in Field-Effect Transistors]] | **Transconductance (gm) in Field-Effect Transistors** | `concept` | `2022_Cheng_FET-Benchmark`, `2021_Liu_2D-Transistors` | `#type/concept` `#topic/semiconductor` `#topic/2d-materials` |
