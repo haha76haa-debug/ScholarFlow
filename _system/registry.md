@@ -26,11 +26,12 @@ This registry is the authoritative single source of truth tracking all notes in 
 | knowledge-007 | FET and MOSFET Fundamentals | [[Knowledge/Concepts/fet_mosfet_fundamentals]] | active | 2026-08-30T10:55:00Z |
 | knowledge-008 | Interface State Density & Fermi-Level Pinning in 2D Transistors | [[Knowledge/Concepts/interface_state_density_and_fermi_pinning]] | active | 2026-08-24T14:25:00Z |
 | knowledge-009 | Saturation Current Density Benchmarking in Logic Transistors | [[Knowledge/Concepts/saturation_current_density_benchmarking]] | active | 2026-08-19 08:50:00+00:00 |
-| knowledge-010 | Transconductance (gm) in Field-Effect Transistors | [[Knowledge/Concepts/transconductance_gm_in_fet]] | active | 2026-08-29T08:00:00Z |
-| knowledge-011 | Two-Dimensional Transistor Scaling and Natural Length | [[Knowledge/Concepts/two_dimensional_transistor_scaling]] | active | 2026-08-19 08:50:00+00:00 |
-| knowledge-012 | Literature Overview: 2D Semiconductors & Emerging FET Benchmarking | [[Knowledge/Literature Overview]] | active | 2026-08-19 07:31:38+00:00 |
-| knowledge-013 | Method Taxonomy: 2D Nanoelectronics & Emerging FET Characterization | [[Knowledge/Method Taxonomy]] | active | 2026-08-19 07:31:38+00:00 |
-| knowledge-014 | Research Gaps: 2D Transistor Bottlenecks & Unresolved Challenges | [[Knowledge/Research Gaps]] | active | 2026-08-19 07:31:38+00:00 |
+| knowledge-010 | Subthreshold Swing vs Transconductance — SS and gm Compared | [[Knowledge/Concepts/ss_vs_transconductance_gm]] | active | 2026-09-01T14:14:00Z |
+| knowledge-011 | Transconductance (gm) in Field-Effect Transistors | [[Knowledge/Concepts/transconductance_gm_in_fet]] | active | 2026-08-29T08:00:00Z |
+| knowledge-012 | Two-Dimensional Transistor Scaling and Natural Length | [[Knowledge/Concepts/two_dimensional_transistor_scaling]] | active | 2026-08-19 08:50:00+00:00 |
+| knowledge-013 | Literature Overview: 2D Semiconductors & Emerging FET Benchmarking | [[Knowledge/Literature Overview]] | active | 2026-08-19 07:31:38+00:00 |
+| knowledge-014 | Method Taxonomy: 2D Nanoelectronics & Emerging FET Characterization | [[Knowledge/Method Taxonomy]] | active | 2026-08-19 07:31:38+00:00 |
+| knowledge-015 | Research Gaps: 2D Transistor Bottlenecks & Unresolved Challenges | [[Knowledge/Research Gaps]] | active | 2026-08-19 07:31:38+00:00 |
 
 ## Writing
 | ID | Title | Path | Status | Updated |

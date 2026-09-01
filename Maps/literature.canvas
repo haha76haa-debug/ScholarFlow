@@ -27,7 +27,7 @@
       "x": -40,
       "y": -40,
       "width": 540,
-      "height": 3780,
+      "height": 4200,
       "color": "2"
     },
     {
@@ -101,11 +101,21 @@
       "color": "6"
     },
     {
+      "id": "node-ss_vs_transconductance_gm",
+      "type": "file",
+      "file": "Knowledge/Concepts/ss_vs_transconductance_gm.md",
+      "x": 680,
+      "y": 2940,
+      "width": 460,
+      "height": 340,
+      "color": "6"
+    },
+    {
       "id": "node-transconductance_gm_in_fet",
       "type": "file",
       "file": "Knowledge/Concepts/transconductance_gm_in_fet.md",
       "x": 680,
-      "y": 2940,
+      "y": 3360,
       "width": 460,
       "height": 340,
       "color": "6"
@@ -115,7 +125,7 @@
       "type": "file",
       "file": "Knowledge/Concepts/two_dimensional_transistor_scaling.md",
       "x": 680,
-      "y": 3360,
+      "y": 3780,
       "width": 460,
       "height": 340,
       "color": "6"
@@ -127,7 +137,7 @@
       "x": 640,
       "y": -40,
       "width": 540,
-      "height": 3780,
+      "height": 4200,
       "color": "6"
     },
     {
@@ -157,7 +167,7 @@
       "x": 1320,
       "y": -40,
       "width": 540,
-      "height": 3780,
+      "height": 4200,
       "color": "#0891b2"
     },
     {
@@ -207,7 +217,7 @@
       "x": 2000,
       "y": -40,
       "width": 540,
-      "height": 3780,
+      "height": 4200,
       "color": "5"
     }
   ],
@@ -312,7 +322,29 @@
       "toEnd": "arrow"
     },
     {
-      "id": "edge-node-2022_cheng_fet-benchmark-node-transconductance_gm_in_fet-9",
+      "id": "edge-node-2022_cheng_fet-benchmark-node-ss_vs_transconductance_gm-9",
+      "fromNode": "node-2022_cheng_fet-benchmark",
+      "fromSide": "right",
+      "toNode": "node-ss_vs_transconductance_gm",
+      "toSide": "left",
+      "label": "uses",
+      "color": "6",
+      "fromEnd": "none",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge-node-2021_liu_2d-transistors-node-ss_vs_transconductance_gm-10",
+      "fromNode": "node-2021_liu_2d-transistors",
+      "fromSide": "right",
+      "toNode": "node-ss_vs_transconductance_gm",
+      "toSide": "left",
+      "label": "uses",
+      "color": "6",
+      "fromEnd": "none",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge-node-2022_cheng_fet-benchmark-node-transconductance_gm_in_fet-11",
       "fromNode": "node-2022_cheng_fet-benchmark",
       "fromSide": "right",
       "toNode": "node-transconductance_gm_in_fet",
@@ -323,7 +355,7 @@
       "toEnd": "arrow"
     },
     {
-      "id": "edge-node-2021_liu_2d-transistors-node-transconductance_gm_in_fet-10",
+      "id": "edge-node-2021_liu_2d-transistors-node-transconductance_gm_in_fet-12",
       "fromNode": "node-2021_liu_2d-transistors",
       "fromSide": "right",
       "toNode": "node-transconductance_gm_in_fet",
@@ -334,7 +366,7 @@
       "toEnd": "arrow"
     },
     {
-      "id": "edge-node-2021_liu_2d-transistors-node-two_dimensional_transistor_scaling-11",
+      "id": "edge-node-2021_liu_2d-transistors-node-two_dimensional_transistor_scaling-13",
       "fromNode": "node-2021_liu_2d-transistors",
       "fromSide": "right",
       "toNode": "node-two_dimensional_transistor_scaling",
@@ -345,7 +377,7 @@
       "toEnd": "arrow"
     },
     {
-      "id": "edge-node-2021_liu_2d-transistors-node-2d_contact_vdw_vs_silicon_silicide-12",
+      "id": "edge-node-2021_liu_2d-transistors-node-2d_contact_vdw_vs_silicon_silicide-14",
       "fromNode": "node-2021_liu_2d-transistors",
       "fromSide": "right",
       "toNode": "node-2d_contact_vdw_vs_silicon_silicide",
@@ -356,7 +388,7 @@
       "toEnd": "arrow"
     },
     {
-      "id": "edge-node-2022_cheng_fet-benchmark-node-2d_contact_vdw_vs_silicon_silicide-13",
+      "id": "edge-node-2022_cheng_fet-benchmark-node-2d_contact_vdw_vs_silicon_silicide-15",
       "fromNode": "node-2022_cheng_fet-benchmark",
       "fromSide": "right",
       "toNode": "node-2d_contact_vdw_vs_silicon_silicide",
@@ -367,7 +399,7 @@
       "toEnd": "arrow"
     },
     {
-      "id": "edge-node-2021_liu_2d-transistors-node-2d_electrostatic_scaling_vs_silicon_gaafet-14",
+      "id": "edge-node-2021_liu_2d-transistors-node-2d_electrostatic_scaling_vs_silicon_gaafet-16",
       "fromNode": "node-2021_liu_2d-transistors",
       "fromSide": "right",
       "toNode": "node-2d_electrostatic_scaling_vs_silicon_gaafet",
@@ -378,7 +410,7 @@
       "toEnd": "arrow"
     },
     {
-      "id": "edge-node-2022_cheng_fet-benchmark-node-2d_electrostatic_scaling_vs_silicon_gaafet-15",
+      "id": "edge-node-2022_cheng_fet-benchmark-node-2d_electrostatic_scaling_vs_silicon_gaafet-17",
       "fromNode": "node-2022_cheng_fet-benchmark",
       "fromSide": "right",
       "toNode": "node-2d_electrostatic_scaling_vs_silicon_gaafet",
@@ -389,7 +421,7 @@
       "toEnd": "arrow"
     },
     {
-      "id": "edge-node-carbon_nanotube_fet_fabrication_and_contact_engineering-node-2d_contact_vdw_vs_silicon_silicide-16",
+      "id": "edge-node-carbon_nanotube_fet_fabrication_and_contact_engineering-node-2d_contact_vdw_vs_silicon_silicide-18",
       "fromNode": "node-carbon_nanotube_fet_fabrication_and_contact_engineering",
       "fromSide": "right",
       "toNode": "node-2d_contact_vdw_vs_silicon_silicide",
@@ -400,7 +432,7 @@
       "toEnd": "arrow"
     },
     {
-      "id": "edge-node-channel_mobility_and_dibl-node-2d_contact_vdw_vs_silicon_silicide-17",
+      "id": "edge-node-channel_mobility_and_dibl-node-2d_contact_vdw_vs_silicon_silicide-19",
       "fromNode": "node-channel_mobility_and_dibl",
       "fromSide": "right",
       "toNode": "node-2d_contact_vdw_vs_silicon_silicide",
@@ -411,7 +443,7 @@
       "toEnd": "arrow"
     },
     {
-      "id": "edge-node-contact_resistance_extraction-node-2d_contact_vdw_vs_silicon_silicide-18",
+      "id": "edge-node-contact_resistance_extraction-node-2d_contact_vdw_vs_silicon_silicide-20",
       "fromNode": "node-contact_resistance_extraction",
       "fromSide": "right",
       "toNode": "node-2d_contact_vdw_vs_silicon_silicide",
@@ -422,7 +454,7 @@
       "toEnd": "arrow"
     },
     {
-      "id": "edge-node-emerging_fet_benchmarking-node-2d_contact_vdw_vs_silicon_silicide-19",
+      "id": "edge-node-emerging_fet_benchmarking-node-2d_contact_vdw_vs_silicon_silicide-21",
       "fromNode": "node-emerging_fet_benchmarking",
       "fromSide": "right",
       "toNode": "node-2d_contact_vdw_vs_silicon_silicide",
@@ -433,7 +465,7 @@
       "toEnd": "arrow"
     },
     {
-      "id": "edge-node-fet_mosfet_fundamentals-node-2d_contact_vdw_vs_silicon_silicide-20",
+      "id": "edge-node-fet_mosfet_fundamentals-node-2d_contact_vdw_vs_silicon_silicide-22",
       "fromNode": "node-fet_mosfet_fundamentals",
       "fromSide": "right",
       "toNode": "node-2d_contact_vdw_vs_silicon_silicide",
@@ -444,7 +476,7 @@
       "toEnd": "arrow"
     },
     {
-      "id": "edge-node-interface_state_density_and_fermi_pinning-node-2d_contact_vdw_vs_silicon_silicide-21",
+      "id": "edge-node-interface_state_density_and_fermi_pinning-node-2d_contact_vdw_vs_silicon_silicide-23",
       "fromNode": "node-interface_state_density_and_fermi_pinning",
       "fromSide": "right",
       "toNode": "node-2d_contact_vdw_vs_silicon_silicide",
@@ -455,7 +487,7 @@
       "toEnd": "arrow"
     },
     {
-      "id": "edge-node-saturation_current_density_benchmarking-node-2d_contact_vdw_vs_silicon_silicide-22",
+      "id": "edge-node-saturation_current_density_benchmarking-node-2d_contact_vdw_vs_silicon_silicide-24",
       "fromNode": "node-saturation_current_density_benchmarking",
       "fromSide": "right",
       "toNode": "node-2d_contact_vdw_vs_silicon_silicide",
@@ -466,7 +498,18 @@
       "toEnd": "arrow"
     },
     {
-      "id": "edge-node-transconductance_gm_in_fet-node-2d_contact_vdw_vs_silicon_silicide-23",
+      "id": "edge-node-ss_vs_transconductance_gm-node-2d_contact_vdw_vs_silicon_silicide-25",
+      "fromNode": "node-ss_vs_transconductance_gm",
+      "fromSide": "right",
+      "toNode": "node-2d_contact_vdw_vs_silicon_silicide",
+      "toSide": "left",
+      "label": "maps_to",
+      "color": "#0891b2",
+      "fromEnd": "none",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge-node-transconductance_gm_in_fet-node-2d_contact_vdw_vs_silicon_silicide-26",
       "fromNode": "node-transconductance_gm_in_fet",
       "fromSide": "right",
       "toNode": "node-2d_contact_vdw_vs_silicon_silicide",
@@ -477,7 +520,7 @@
       "toEnd": "arrow"
     },
     {
-      "id": "edge-node-two_dimensional_transistor_scaling-node-2d_contact_vdw_vs_silicon_silicide-24",
+      "id": "edge-node-two_dimensional_transistor_scaling-node-2d_contact_vdw_vs_silicon_silicide-27",
       "fromNode": "node-two_dimensional_transistor_scaling",
       "fromSide": "right",
       "toNode": "node-2d_contact_vdw_vs_silicon_silicide",
@@ -488,7 +531,7 @@
       "toEnd": "arrow"
     },
     {
-      "id": "edge-node-carbon_nanotube_fet_fabrication_and_contact_engineering-node-2d_electrostatic_scaling_vs_silicon_gaafet-25",
+      "id": "edge-node-carbon_nanotube_fet_fabrication_and_contact_engineering-node-2d_electrostatic_scaling_vs_silicon_gaafet-28",
       "fromNode": "node-carbon_nanotube_fet_fabrication_and_contact_engineering",
       "fromSide": "right",
       "toNode": "node-2d_electrostatic_scaling_vs_silicon_gaafet",
@@ -499,7 +542,7 @@
       "toEnd": "arrow"
     },
     {
-      "id": "edge-node-channel_mobility_and_dibl-node-2d_electrostatic_scaling_vs_silicon_gaafet-26",
+      "id": "edge-node-channel_mobility_and_dibl-node-2d_electrostatic_scaling_vs_silicon_gaafet-29",
       "fromNode": "node-channel_mobility_and_dibl",
       "fromSide": "right",
       "toNode": "node-2d_electrostatic_scaling_vs_silicon_gaafet",
@@ -510,7 +553,7 @@
       "toEnd": "arrow"
     },
     {
-      "id": "edge-node-contact_resistance_extraction-node-2d_electrostatic_scaling_vs_silicon_gaafet-27",
+      "id": "edge-node-contact_resistance_extraction-node-2d_electrostatic_scaling_vs_silicon_gaafet-30",
       "fromNode": "node-contact_resistance_extraction",
       "fromSide": "right",
       "toNode": "node-2d_electrostatic_scaling_vs_silicon_gaafet",
@@ -521,7 +564,7 @@
       "toEnd": "arrow"
     },
     {
-      "id": "edge-node-emerging_fet_benchmarking-node-2d_electrostatic_scaling_vs_silicon_gaafet-28",
+      "id": "edge-node-emerging_fet_benchmarking-node-2d_electrostatic_scaling_vs_silicon_gaafet-31",
       "fromNode": "node-emerging_fet_benchmarking",
       "fromSide": "right",
       "toNode": "node-2d_electrostatic_scaling_vs_silicon_gaafet",
@@ -532,7 +575,7 @@
       "toEnd": "arrow"
     },
     {
-      "id": "edge-node-fet_mosfet_fundamentals-node-2d_electrostatic_scaling_vs_silicon_gaafet-29",
+      "id": "edge-node-fet_mosfet_fundamentals-node-2d_electrostatic_scaling_vs_silicon_gaafet-32",
       "fromNode": "node-fet_mosfet_fundamentals",
       "fromSide": "right",
       "toNode": "node-2d_electrostatic_scaling_vs_silicon_gaafet",
@@ -543,7 +586,7 @@
       "toEnd": "arrow"
     },
     {
-      "id": "edge-node-interface_state_density_and_fermi_pinning-node-2d_electrostatic_scaling_vs_silicon_gaafet-30",
+      "id": "edge-node-interface_state_density_and_fermi_pinning-node-2d_electrostatic_scaling_vs_silicon_gaafet-33",
       "fromNode": "node-interface_state_density_and_fermi_pinning",
       "fromSide": "right",
       "toNode": "node-2d_electrostatic_scaling_vs_silicon_gaafet",
@@ -554,7 +597,7 @@
       "toEnd": "arrow"
     },
     {
-      "id": "edge-node-saturation_current_density_benchmarking-node-2d_electrostatic_scaling_vs_silicon_gaafet-31",
+      "id": "edge-node-saturation_current_density_benchmarking-node-2d_electrostatic_scaling_vs_silicon_gaafet-34",
       "fromNode": "node-saturation_current_density_benchmarking",
       "fromSide": "right",
       "toNode": "node-2d_electrostatic_scaling_vs_silicon_gaafet",
@@ -565,7 +608,18 @@
       "toEnd": "arrow"
     },
     {
-      "id": "edge-node-transconductance_gm_in_fet-node-2d_electrostatic_scaling_vs_silicon_gaafet-32",
+      "id": "edge-node-ss_vs_transconductance_gm-node-2d_electrostatic_scaling_vs_silicon_gaafet-35",
+      "fromNode": "node-ss_vs_transconductance_gm",
+      "fromSide": "right",
+      "toNode": "node-2d_electrostatic_scaling_vs_silicon_gaafet",
+      "toSide": "left",
+      "label": "maps_to",
+      "color": "#0891b2",
+      "fromEnd": "none",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge-node-transconductance_gm_in_fet-node-2d_electrostatic_scaling_vs_silicon_gaafet-36",
       "fromNode": "node-transconductance_gm_in_fet",
       "fromSide": "right",
       "toNode": "node-2d_electrostatic_scaling_vs_silicon_gaafet",
@@ -576,7 +630,7 @@
       "toEnd": "arrow"
     },
     {
-      "id": "edge-node-two_dimensional_transistor_scaling-node-2d_electrostatic_scaling_vs_silicon_gaafet-33",
+      "id": "edge-node-two_dimensional_transistor_scaling-node-2d_electrostatic_scaling_vs_silicon_gaafet-37",
       "fromNode": "node-two_dimensional_transistor_scaling",
       "fromSide": "right",
       "toNode": "node-2d_electrostatic_scaling_vs_silicon_gaafet",
@@ -587,7 +641,7 @@
       "toEnd": "arrow"
     },
     {
-      "id": "edge-node-2d_contact_vdw_vs_silicon_silicide-node-literature-overview-34",
+      "id": "edge-node-2d_contact_vdw_vs_silicon_silicide-node-literature-overview-38",
       "fromNode": "node-2d_contact_vdw_vs_silicon_silicide",
       "fromSide": "right",
       "toNode": "node-literature-overview",
@@ -598,7 +652,7 @@
       "toEnd": "arrow"
     },
     {
-      "id": "edge-node-2d_electrostatic_scaling_vs_silicon_gaafet-node-method-taxonomy-35",
+      "id": "edge-node-2d_electrostatic_scaling_vs_silicon_gaafet-node-method-taxonomy-39",
       "fromNode": "node-2d_electrostatic_scaling_vs_silicon_gaafet",
       "fromSide": "right",
       "toNode": "node-method-taxonomy",
@@ -609,7 +663,7 @@
       "toEnd": "arrow"
     },
     {
-      "id": "edge-node-2d_electrostatic_scaling_vs_silicon_gaafet-node-literature-overview-36",
+      "id": "edge-node-2d_electrostatic_scaling_vs_silicon_gaafet-node-literature-overview-40",
       "fromNode": "node-2d_electrostatic_scaling_vs_silicon_gaafet",
       "fromSide": "right",
       "toNode": "node-literature-overview",
@@ -620,7 +674,7 @@
       "toEnd": "arrow"
     },
     {
-      "id": "edge-node-2d_contact_vdw_vs_silicon_silicide-node-comparison-matrix-37",
+      "id": "edge-node-2d_contact_vdw_vs_silicon_silicide-node-comparison-matrix-41",
       "fromNode": "node-2d_contact_vdw_vs_silicon_silicide",
       "fromSide": "right",
       "toNode": "node-comparison-matrix",
@@ -631,7 +685,7 @@
       "toEnd": "arrow"
     },
     {
-      "id": "edge-node-2d_electrostatic_scaling_vs_silicon_gaafet-node-comparison-matrix-38",
+      "id": "edge-node-2d_electrostatic_scaling_vs_silicon_gaafet-node-comparison-matrix-42",
       "fromNode": "node-2d_electrostatic_scaling_vs_silicon_gaafet",
       "fromSide": "right",
       "toNode": "node-comparison-matrix",
